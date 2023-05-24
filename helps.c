@@ -121,7 +121,7 @@ void variable_replacement(char **line, int *exe_ret)
 				replacement = get_pid();
 				k = i + 2;
 			}
-			else if (old_line[j + 1] == '?')
+			else if (old_line[i + 1] == '?')
 			{
 				replacement = _itoa(*exe_ret);
 				k = i + 2;

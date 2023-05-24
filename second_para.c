@@ -42,7 +42,7 @@ int count_token(char *str, char *delim)
 
 	for (index1 = 0; *(str + index1); index1++)
 		len++;
-//adding parameter//
+/* adding parameter*/
 	for (index1 = 0; index1 < len; index1++)
 	{
 		if (*(str + index1) != *delim)

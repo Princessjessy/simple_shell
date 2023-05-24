@@ -201,11 +201,11 @@ int check_args(char **args)
 		cur = args[j];
 		if (cur[0] == ';' || cur[0] == '&' || cur[0] == '|')
 		{
-			if (i == 0 || cur[1] == ';')
-				return (create_error(&args[j], 2));
+			if (j == 0 || cur[1] == ';')
+				return (create_errors(&args[j], 2));
 			nex = args[j + 1];
 			if (nex && (nex[0] == ';' || nex[0] == '&' || nex[0] == '|'))
-				return (create_error(&args[j + 1], 2));
+				return (create_errors(&args[j + 1], 2));
 		}
 	}
 	return (0);

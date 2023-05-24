@@ -144,7 +144,7 @@ ssize_t get_new_len(char *line)
 					new_len++;
 			}
 			else
-				logical_ops(&line[i], &new_len);
+				logical_ops(&line[j], &new_len);
 		}
 		else if (current == ';')
 		{

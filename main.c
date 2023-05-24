@@ -10,7 +10,9 @@ int execute(char **args, char **front);
 void sig_handler(int sig)
 {
 	char *new_prompt = "\n$ ";
-//signal new prompt//
+
+	/* signal new prompt*/
+
 	(void)sig;
 	signal(SIGINT, sig_handler);
 	write(STDIN_FILENO, new_prompt, 3);
@@ -29,7 +31,7 @@ int execute(char **args, char **front)
 	pid_t child_pid;
 	int status, flag = 0, ret = 0;
 	char *command = args[0];
-//execute command//
+/* execute command*/
 	if (command[0] != '/' && command[0] != '.')
 	{
 		flag = 1;
@@ -39,9 +41,9 @@ int execute(char **args, char **front)
 	if (!command || (access(command, F_OK) == -1))
 	{
 		if (errno == EACCES)
-			ret = (create_error(args, 126));
+			ret = (create_errors(args, 126));
 		else
-			ret = (create_error(args, 127));
+			ret = (create_errors(args, 127));
 	}
 	else
 	{
@@ -55,9 +57,9 @@ int execute(char **args, char **front)
 		}
 		if (child_pid == 0)
 		{
-			execve(command, args, environ);
+			execve(command, args, environm);
 			if (errno == EACCES)
-				ret = (create_error(args, 126));
+				ret = (create_errors(args, 126));
 			free_env();
 			free_args(args, front);
 			free_alias_list(aliases);
@@ -93,8 +95,8 @@ int main(int argc, char *argv[])
 	signal(SIGINT, sig_handler);
 
 	*exe_ret = 0;
-	environ = _copyenv();
-	if (!environ)
+	environm = _copyenv();
+	if (!environm)
 		exit(-100);
 
 	if (argc != 1)
@@ -113,7 +115,7 @@ int main(int argc, char *argv[])
 		free_alias_list(aliases);
 		return (*exe_ret);
 	}
-//agrument command interprete//
+/*agrument command interprete*/
 	while (1)
 	{
 		write(STDOUT_FILENO, prompt, 2);

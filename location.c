@@ -16,7 +16,8 @@ char *get_location(char *command)
 	char **path, *temp;
 	list_t *dirs, *head;
 	struct stat st;
-//location a command in the path//
+
+	/* location a command in the path*/
 	path = _getenv("PATH");
 	if (!path || !(*path))
 		return (NULL);

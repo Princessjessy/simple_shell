@@ -44,7 +44,7 @@ int shellby_alias(char **args, char __attribute__((__unused__)) **front)
 				temp = temp->next;
 			}
 			if (!temp)
-				ret = create_error(args + j, 1);
+				ret = create_errors(args + j, 1);
 		}
 		else
 			set_alias(args[j], value);
