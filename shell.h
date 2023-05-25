@@ -22,10 +22,10 @@
 
 /* Global environemnt */
 extern char **environm;
-/* Global program name */
-char *name;
-/* Global history counter */
-int hist;
+
+char name;
+
+int numb;
 
 /**
  * struct list_s - A new struct type defining a linked list.
