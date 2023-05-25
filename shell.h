@@ -13,7 +13,7 @@ extern char **environ;
 /*  HEADERFILE  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <unisd.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -22,7 +22,7 @@ extern char **environ;
 #include <fcntl.h>
 #include <errno.h>
 
-/*---PROTOTYPES---*/
+/* PROTOTYPES */
 char *read_stdin(void);
 char *read_stream(void);
 char **tokenis(char *num);
@@ -40,7 +40,7 @@ char *_strcopy(char *test, char *src);
 int env(char **code);
 char *_strike(char *sri, char *decline);
 
-/*---STRUCTRES---*/
+/*   STRUCTURE */
 /**
  * struct built - structure for builtins.
  * @name: name of the builtin.
