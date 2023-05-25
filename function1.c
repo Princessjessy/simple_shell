@@ -1,92 +1,156 @@
 #include "shell.h"
 
-int _strlen(const char *s);
-char *_strcpy(char *dest, const char *src);
-char *_strcat(char *dest, const char *src);
-char *_strncat(char *dest, const char *src, size_t n);
-
 /**
- * _strlen - Returns the length of a string.
- * @s: A pointer to the characters string.
+ * _netenvir - the environment list to returns a pointer
+ * @form: the environment variable name.
  *
- * Return: The length of the character string.
+ * Return: a pointer to the corresponding value string.
  */
-
-int _strlen(const char *s)
+char *_netenvir(const char *form)
 {
-	int length = 0;
+	char **envir;
+	int leng = _strlen(form);
 
-  /* lenght of a string*/
-
-	if (!s)
-		return (length);
-	for (length = 0; s[length]; length++)
-		;
-	return (length);
+	for (envir = environ; *envir != NULL; ++envir)
+	{
+		if (_strncmp(*envir, form, leng) == 0)
+			return (&(*envir)[leng + 1]);
+	}
+	return (NULL);
 }
 
 /**
- * _strcpy - Copies the string pointed to by src, including the
- *           terminating null byte, to the buffer pointed by des.
- * @dest: Pointer to the destination of copied string.
- * @src: Pointer to the src of the source string.
+ * _item - function that converts an int to a string pointed to by str.
+ * @sri: The converted value.
+ * @sum: the number to convert.
  *
- * Return: Pointer to dest.
+ * Return: i sucess 0 fail
  */
-
-char *_strcpy(char *dest, const char *src)
+void _item(int sum, char *sri)
 {
-	size_t j;
- /*  string pointed by src*/
-	for (j = 0; src[j] != '\0'; j++)
-		dest[j] = src[j];
-	dest[j] = '\0';
-	return (dest);
+	int n, d;
+	char temp;
+
+	for (n = 0; sum != 0; n++)
+	{
+		sri[i] = '0' + (sum % 10);
+		sum /= 10;
+	}
+	for (d = 0; d < n / 2; d++)
+	{
+		temp = sri[d];
+		sri[d] = sri[n - d - 1];
+		sri[n - d - 1] = temp;
+	}
+	sri[n] = '\0';
 }
 
 /**
- * _strcat - Concantenates two strings.
- * @dest: Pointer to destination string.
- * @src: Pointer to source string.
- *
- * Return: Pointer to destination string.
+ * _getline - function that read from stdin.
+ * @numptr: the pointer where storing the buffer containing the text.
+ * @n: the buffer size.
+ * @stream: where funvtion reads the line from.
+ * Return: On success 0 failure 1
  */
-
-char *_strcat(char *dest, const char *src)
+int _getline(char **numptr, size_t *n, FILE *stream)
 {
-	char *destTemp;
-	const char *srcTemp;
+	static char *num;
+	int bytes_read;
+	int f;
 
-	destTemp = dest;
-	srcTemp =  src;
+	if (stream == stdin)
+		f = STDIN_FILENO;
+	else
+		return (-1);
+	if (numptr == NULL || n == NULL)
+		return (-1);
 
-	while (*destTemp != '\0')
-		destTemp++;
+	num = malloc(BUFFER_SIZE);
+	if (num == NULL)
+		return (-1);
 
-	while (*srcTemp != '\0')
-		*destTemp++ = *srcTemp++;
-	*destTemp = '\0';
-	return (dest);
+	bytes_read = read(f, num, BUFFER_SIZE);
+	if (bytes_read < 0)
+	{
+		free(num);
+		return (-1);
+	}
+
+	*numptr = malloc(bytes_read);
+	if (numptr == NULL)
+	{
+		free(num);
+		return (-1);
+	}
+	*numptr[bytes_read] = '\n';
+
+	_strcpy(*numptr, num);
+	return (0);
 }
 
 /**
- * _strncat - Concantenates two strings where n number
- *            of bytes are copied from source.
- * @dest: Pointer to destination string.
- * @src: Pointer to source string.
- * @n: n bytes to copy from src.
- *
- * Return: Pointer to destination string.
+ * decline_select - compare a character from str to delimiters
+ * @s: chararcter from str.
+ * @decline: all delimiters.
+ * 
+ * Return: 1 if its found. and 0 if didn't found it.
  */
 
-char *_strncat(char *dest, const char *src, size_t n)
+unsigned int decline_select(char s, char *decline)
 {
-	size_t dest_len = _strlen(dest);
-	size_t j;
-/*strings number*/
-	for (j = 0; j < n && src[j] != '\0'; j++)
-		dest[dest_len + j] = src[j];
-	dest[dest_len + j] = '\0';
+	while (*decline != '\0')
+	{
+		if (s == *decline)
+			return (1);
+		decline++;
+	}
+	return (0);
+}
 
-	return (dest);
+/**
+ * _strike- f breaks a string into a sequence of zero 
+ * @sri: the string to be parsed
+ * @decline: argument specifies a set of bytes that delimit the token.
+ *
+ * Return: The strtok() functions return a pointer to the next token
+ */
+char *_strike(char *sri, char *decline)
+{
+	static char *old_str;
+	char *portion;
+
+	if (sri == NULL)
+		sri = old_str;
+
+	if (sri == NULL)
+		return (NULL);
+
+	while (1)
+	{
+		if (decline_select(*sri, decline))
+		{
+			sri++;
+			continue;
+		}
+		if (*sri == '\0')
+			return (NULL);
+		break;
+	}
+	portion = sri;
+
+	while (1)
+	{
+		if (*sri == '\0')
+		{
+			old_str = sri;
+			return (portion);
+		}
+		if (decline_search(*sri, decline)
+		{
+			*sri = '\0';
+			old_str = sri + 1;
+			return (portion);
+		}
+		sri++;
+	}
 }
