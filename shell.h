@@ -35,7 +35,7 @@ char *_netenvir(const char *form);
 void error(int statiss, char **s, int j);
 void _item(int sum, char *sri);
 char *_strcmds(char *test, char *snc);
-int end(char **code);
+int over(char **code);
 char *_strcopy(char *test, char *src);
 int env(char **code);
 char *_strike(char *sri, char *decline);
