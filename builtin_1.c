@@ -1,44 +1,45 @@
 #include "shell.h"
 
 /**
- * tokenis -   a string into a sequence of token on specified delimiter.
- * @num: the commands number.
+ * tokeniz - function that Breaks a string into a sequence of tokens based on
+ * @line: the commands line.
  *
  * Return: commands as tokens and NULL if it fails.
- */
-char **tokenis(char *num)
+*/
+
+char **tokeniz(char *line)
 {
-	int len = 0;
-	int weight = 16;
-	char **odd;
+	int length = 0;
+	int capacity = 16;
+	char **tokens;
 	char *token;
-/* string sequence */
-	odd = malloc(weight * sizeof(char *));
-	if (odd == NULL)
+
+	tokens = malloc(capacity * sizeof(char *));
+	if (tokens == NULL)
 	{
-		free(odd);
+		free(tokens);
 		return (NULL);
 	}
-/* command line */
-	token = _strtok(num, " \n");
+/* token command */
+	token = _strtok(line, " \n");
 	while (token != NULL)
 	{
-		odd[len] = token;
-		len++;
+		tokens[length] = token;
+		length++;
 
-		if (len >= weight)
+		if (length >= capacity)
 		{
-			weight += weight;
-			odd = realloc(odd, weight * sizeof(char *));
-			if (odd == NULL)
+			capacity += capacity;
+			tokens = realloc(tokens, capacity * sizeof(char *));
+			if (tokens == NULL)
 			{
-				free(odd);
+				free(tokens);
 				return (NULL);
 			}
 		}
 		token = _strtok(NULL, " \n");
 	}
 
-	odd[len] = NULL;
-	return (odd);
+	tokens[length] = NULL;
+	return (tokens);
 }

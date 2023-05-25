@@ -1,47 +1,45 @@
 #include "shell.h"
-
 /**
- * excute_code -  executes the program referred to by (part).
- * @part: binary executable.
- * @code: an array of pointers to strings pass program
+ * excut_cmd - function that executes the program referred to by (path).
+ * @path: binary executable.
+ * @cmd: an array of pointers to strings passed to the new program
  *
  * Return: On success, return 0, on error -1 is returned
  */
-
-int excute_code(char *part, char **code)
+int excut_cmd(char *path, char **cmd)
 {
-	int statis;
-	pid_t pid = dork();
-/* execute the command */
+	int status;
+	pid_t pid = fork();
+
 	if (pid == 0)
 	{
-		statis = execve(part, code, environ);
-		if (statis == -1)
+		status = execve(path, cmd, environ);
+		if (status == -1)
 			return (1);
 	}
 	else if (pid < 0)
 	{
-		perror("dork");
+		perror("fork");
 	}
 	else
 	{
 		do {
-		waitpid(pid, &statis, WUNTRACED);
-		} while (!WIFEXITED(statis) && !WIFSIGNALED(status));
+		waitpid(pid, &status, WUNTRACED);
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 	return (0);
 }
 /**
- * eccess_pats - that checks whether the calling process
- * @code: the file of the code.
+ * access_path - function that checks whether the calling process
+ * @cmd: the file of the command.
  *
  * Return: On success, zero is returned. On error -1 is returned;
  */
-int eccess_pats(const char *code)
+int access_path(const char *cmd)
 {
-	int scale = eccess(code, X_OK);
+	int result = access(cmd, X_OK);
 
-	if (scale == -1)
+	if (result == -1)
 	{
 		return (-1);
 	}
@@ -49,91 +47,91 @@ int eccess_pats(const char *code)
 		return (0);
 }
 /**
- * final_line_pats -  that look for commands.
- * @code: the command.
+ * find_command_path - function that look for commands.
+ * @cmd: the command.
  *
  * Return: excutable (the path to the command if it exist),
  */
-char *final_line_pats(const char *code)
+char *find_command_path(const char *cmd)
 {
-	char *countable = NULL;
+	char *excutable = NULL;
 
-	if (code[0] == '/')
+	if (cmd[0] == '/')
 	{
-		if (eccess_pats(code) == 0)
+		if (access_path(cmd) == 0)
 		{
-			countable = _strdup((char *) code);
-			return (countable);
+			excutable = _strdup((char *) cmd);
+			return (excutable);
 		}
 	}
 	else
 	{
-		char *part = _getenv("PATH");
-		char *part_copy = _strdup(part);
+		char *path = _getenv("PATH");
+		char *path_copy = _strdup(path);
 		char *dir;
 
-		dir = strtok(part_copy, ":");
+		dir = _strtok(path_copy, ":");
 		while (dir != NULL)
 		{
-			countable = malloc(_strlen(dir) + _strlen(code) + 2);
-			if (countable == NULL)
+			excutable = malloc(_strlen(dir) + _strlen(cmd) + 2);
+			if (excutable == NULL)
 			{
-				free(countable);
+				free(excutable);
 				return (NULL);
 			}
-			_strcpy(countable, dir);
-			_strcat(countable, "/");
-			_strcat(countable, (char *) code);
-			if (eccess_pats(countable) == 0)
+			_strcpy(excutable, dir);
+			_strcat(excutable, "/");
+			_strcat(excutable, (char *) cmd);
+			if (access_path(excutable) == 0)
 			{
-				free(part_copy);
-				return (countable);
+				free(path_copy);
+				return (excutable);
 			}
-			free(countable);
-			dir = strtok(NULL, ":");
+			free(excutable);
+			dir = _strtok(NULL, ":");
 		}
-		free(part_copy);
+		free(path_copy);
 	}
 
 	return (NULL);
 }
 
 /**
- * excutcmd -  that excut the commands.
- * @code: the commands.
+ * excutcmd - function that excut the commands.
+ * @cmd: the commands.
  *
  * Return: On success, return 0, on error 1 is returned.
  */
-int excutcmd(char **code)
+int excutcmd(char **cmd)
 {
-	char *part;
-	int j, cals;
-	built_1 builtin_2[] = {
+	char *path;
+	int j, comp;
+	built_in builtin_cmds[] = {
 		{"exit", end},
 		{"env", env},
 		{NULL, NULL}
 		};
 
-	/* check if its a builtin command */
-	for (j = 0; builtin_2[i].name != NULL; j++)
+	/* a builtin command */
+	for (j = 0; builtin_cmds[j].name != NULL; j++)
 	{
-		cals = _strncmp(code[0], builtin_2[j].name,
-				_strlen(builtin_2[jj].name));
-		if (cals == 0)
+		comp = _strncmp(cmd[0], builtin_cmds[j].name,
+				_strlen(builtin_cmds[j].name));
+		if (comp == 0)
 		{
-			return (builtin_2[j].f(code));
+			return (builtin_cmds[j].f(cmd));
 		}
 	}
-
-	part = final_line_pats(code[0]);
-	if (part != NULL)
+/* find command path */
+	path = find_command_path(cmd[0]);
+	if (path != NULL)
 	{
-		if (excute_code(part, code) == 0)
+		if (excut_cmd(path, cmd) == 0)
 		{
-			free(part);
+			free(path);
 			return (0);
 		}
-		free(part);
+		free(path);
 		return (1);
 	}
 	return (1);

@@ -1,27 +1,25 @@
 #include "shell.h"
-
 /**
- * read_stream - study a line from the stream
- *
+ * read_stream - read a line from the stream
  * Return: pointer points to the line
  */
-
 char *read_stream(void)
 {
-	char *numptr = NULL;
-	size_t m = 0;
-	int leng;
-/* length exit stdin*/
-	leng = getline(&numptr, &m, stdin);
-	if (leng == EOF)
+	char *lineptr = NULL;
+	size_t n = 0;
+	int len;
+
+	len = getline(&lineptr, &n, stdin);
+	if (len == EOF)
 	{
-		free(numptr);
+		free(lineptr);
 		exit(EXIT_FAILURE);
+/*lineptr command*/
 	}
-	if (leng == -1)
+	if (len == -1)
 	{
 		perror("getline: ");
 		exit(EXIT_FAILURE);
 	}
-	return (numptr);
+	return (lineptr);
 }

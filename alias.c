@@ -1,47 +1,46 @@
 #include "shell.h"
-
 /**
- * sigmode -  signal ctrl+c
- * @signal_dig: The signal number
+ * signal_handling - function that terminal signals.
+ * @signal_num: signal number.
+ *
  * Return: newline character
  */
-
-void sigmode(int signal_dig)
+void signal_handling(int signal_num)
 {
-	(void)signal_dig;
-	/* newline character*/
+	(void)signal_num;
 	write(STDOUT_FILENO, "\n", 2);
 	write(STDOUT_FILENO, "#cisfun$ ", 10);
 }
 /**
- * interaction_mood - the interaction of computer through keyboard.
- * Return: if 1 interaction mood 0 likewise.
+ * interaction_mood - the program in interactive mode.
+ * @progname: program name.
+ *
+ * Return: 0 sucess 1 fail
  */
-void interaction_mood(void)
+void interaction_mood(char *progname)
 {
-	char *num;
-	char **code;
-	int i = 0;
-	int j = 1;
+	char *line;
+	char **cmds;
+	int err_check = 0;
+	int running = 1;
 
-	signal(SIGINT, sigmode);
+	signal(SIGINT, signal_handler);
 	while (1)
 	{
 		write(STDOUT_FILENO, "#cisfun$ ", 10);
-		num = read_stdin();
-		if (num != NULL)
+		line = read_stdin();
+		if (line != NULL)
 		{
-			/* errors in command*/
-			code = tokeniz(num);
-			i = excutcmd(code);
-			if (i > 0)
+			cmds = tokeniz(line);
+			err_check = excutcmd(cmds);
+			if (err_check > 0)
 			{
-				error(i, code, j);
+				error(progname, err_check, cmds, running);
 			}
-			free(num);
-			free(code);
+			free(line);
+			free(cmds);
 		}
-		j++;
+		running++;
 	}
-	free(num);
+	free(line);
 }

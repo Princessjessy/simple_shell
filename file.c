@@ -1,27 +1,27 @@
 #include "shell.h"
-
 /**
- * nor_interaction_mood - the conversation of computer through keyboard.
+ * nor_interaction_mood - the program in the non interactive mode.
+ * @progname: program name.
  *
- * Return: 0 non_interaction 1 likewise
+ * Return: newline character
  */
-
-void nor_interaction_mood(void)
+void nor_interaction_mood(char *progname)
 {
-char *num;
-char **code;
-int i = 0;
-int j = 1;
-while (1)
-{
-num = read_stream();
-code = tokeniz(num);
-i = excutcmd(code);
-if (i > 0)
-{
-error(i, code, j;
-}
-}
-free(num);
-free(code);
+	char *line;
+	char **cmds;
+	int err_check = 0;
+	int running = 1;
+/* newline character */
+	while (1)
+	{
+		line = read_stream();
+		cmds = tokeniz(line);
+		err_check = excutcmd(cmds);
+		if (err_check > 0)
+		{
+			error(progname, err_check, cmds, running);
+		}
+	}
+	free(line);
+	free(cmds);
 }
