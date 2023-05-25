@@ -1,68 +1,37 @@
 #include "shell.h"
 /**
- * programmer - that look for the program name.
- *
- * Return: the program name in success.
+ * error - function that handle the commands errors.
+ * @progname: program name.
+ * @status: status value.
+ * @s: the command.
+ * @running: the number of command been running.
+ * Return: the status value define the error should prompt
  */
-char *programmer(void)
+void error(char *progname, int status, char **s, int running)
 {
-	char *progess = NULL;
-	char buffer[BUFFER_SIZE], pid[MAX_NUM], procpath[MAX_LENGHT] = "/proc/";
-	int f;
+	char errun[MAX_NUM];
 
-	_itoa(getpid(), pid);
-	_strcat(procpath, pid);
-	_strcat(procpath, "/cmdline");
-
-	fp = open(procpath, O_RDONLY);
-	if (f != -1)
-	{
-		int b = read(fp, buffer, sizeof(progess));
-
-		if (b != -1)
-		{
-			progess = malloc(nb * sizeof(char) + 1);
-			strncpy(progess, buffer, b);
-			progess[b] = '\0';
-			close(f);
-			return (progess);
-		}
-		close(fp);
-	}
-	return (NULL);
-}
-
-/**
- * error -  handle the commands errors.
- * @statis: statis value.
- * @k: the command.
- * @j: the number of command been running.
- * Description: the statis value define the error should prompt
- * Return: 1 command error 2 exit error
- */
-void error(int statis, char **k, int j)
-{
-	char *progess = programmer();
-	char arrun[MAX_NUM];
-
-	_itoa(j, arrun);
-	write(STDOUT_FILENO, progess, _strlen(progess));
+	_itoa(running, errun);
+	write(STDOUT_FILENO, progname, _strlen(progname));
 	write(STDOUT_FILENO, ": ", 2);
-	write(STDOUT_FILENO, arrun, _strlen(arrun));
+	write(STDOUT_FILENO, errun, _strlen(errun));
 	write(STDOUT_FILENO, ": ", 2);
 
-	if (statis == 1)
+	if (status == 1)
 	{
-		perror(*k);
-	}
-	else if (statis == 2)
-	{
-		char exit_errs[] = "exit: Illegal number: ";
+		char err[] = ": not found";
 
-		write(STDOUT_FILENO, exit_errs, _strlen(exit_errs));
+		write(STDOUT_FILENO, s[0], _strlen(s[0]));
+		write(STDOUT_FILENO, err, _strlen(err));
+		write(STDOUT_FILENO, "\n", 1);
+	}
+	else if (status == 2)
+	{
+		char exit_err[] = "exit: Illegal number: ";
+
+		write(STDOUT_FILENO, exit_err, _strlen(exit_err));
 		write(STDOUT_FILENO, s[1], _strlen(s[1]));
 		write(STDOUT_FILENO, "\n", 1);
 	}
-	free(progess);
 
 }
