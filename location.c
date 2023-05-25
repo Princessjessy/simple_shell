@@ -1,144 +1,53 @@
 #include "shell.h"
-
-char *fill_path_dir(char *path);
-list_t *get_path_dir(char *path);
+#include <ctype.h>
 
 /**
- * get_location - Locates a command in the PATH.
- * @command: The command to locate.
+ * end - function causes normal process termination and exit the program,
+ * @cmd: normal process.
  *
- * Return: If an error occurs or the command cannot be located - NULL.
- *         Otherwise - the full pathname of the command.
+ * Return: On Success nothing returned. return 2 in failure
  */
 
-char *get_location(char *command)
+int end(char **cmd)
 {
-	char **path, *temp;
-	list_t *dirs, *head;
-	struct stat st;
-
-	/* location a command in the path*/
-	path = _getenv("PATH");
-	if (!path || !(*path))
-		return (NULL);
-
-	dirs = get_path_dir(*path + 5);
-	head = dirs;
-
-	while (dirs)
+	if (cmd[1] != NULL)
 	{
-		temp = malloc(_strlen(dirs->dir) + _strlen(command) + 2);
-		if (!temp)
-			return (NULL);
+		int n = atoi(cmd[1]);
 
-		_strcpy(temp, dirs->dir);
-		_strcat(temp, "/");
-		_strcat(temp, command);
-
-		if (stat(temp, &st) == 0)
-		{
-			free_list(head);
-			return (temp);
-		}
-
-		dirs = dirs->next;
-		free(temp);
+		if (n == 0 && *cmd[1] != '0')
+			return (2);
+		free(cmd);
+		exit(n);
 	}
-
-	free_list(head);
-
-	return (NULL);
+	free(cmd);
+	exit(EXIT_SUCCESS);
 }
-
 /**
- * fill_path_dir - Copies path but also replaces leading/sandwiched/trailing
- *		   colons (:) with current working directory.
- * @path: The colon-separated list of directories.
+ * env - function that Display environment variables.
+ * @cmd: the env command.
  *
- * Return: A copy of path with any leading/sandwiched/trailing colons replaced
- *	   with the current working directory.
+ * Return: 0 àn success.
  */
-
-char *fill_path_dir(char *path)
+int env(char **cmd)
 {
-	int j, length = 0;
-	char *path_copy, *pwd;
+	int i;
+	char *env_var;
+	char *vars[] = {"USER", "LANGUAGE", "SESSION", "COMPIZ_CONFIG_PROFILE",
+		"SHLVL", "HOME", "C_IS", "DESKTOP_SESSION",
+		"LOGNAME", "TERM", "PATH", "DISPLAY", NULL};
 
-	pwd = *(_getenv("PWD")) + 4;
-	for (j = 0; path[j]; j++)
+	for (i = 0; vars[i] != NULL; i++)
 	{
-		if (path[j] == ':')
+		env_var = _getenv(vars[i]);
+		if (env_var != NULL)
 		{
-			if (path[j + 1] == ':' || j == 0 || path[j + 1] == '\0')
-				length += _strlen(pwd) + 1;
-			else
-				length++;
-		}
-		else
-			length++;
-	}
-	path_copy = malloc(sizeof(char) * (length + 1));
-	if (!path_copy)
-		return (NULL);
-	path_copy[0] = '\0';
-	for (j = 0; path[j]; j++)
-	{
-		if (path[j] == ':')
-		{
-			if (j == 0)
-			{
-				_strcat(path_copy, pwd);
-				_strcat(path_copy, ":");
-			}
-			else if (path[j + 1] == ':' || path[j + 1] == '\0')
-			{
-				_strcat(path_copy, ":");
-				_strcat(path_copy, pwd);
-			}
-			else
-				_strcat(path_copy, ":");
-		}
-		else
-		{
-			_strncat(path_copy, &path[j], 1);
+			write(STDOUT_FILENO, vars[i], _strlen(vars[i]));
+			write(STDOUT_FILENO, "=", 1);
+			write(STDOUT_FILENO, env_var, _strlen(env_var));
+			write(STDOUT_FILENO, "\n", 1);
+
 		}
 	}
-	return (path_copy);
-}
-
-/**
- * get_path_dir - Tokenizes a colon-separated list of
- *                directories into a list_s linked list.
- * @path: The colon-separated list of directories.
- *
- * Return: A pointer to the initialized linked list.
- */
-
-list_t *get_path_dir(char *path)
-{
-	int index1;
-	char **dirs, *path_copy;
-	list_t *head = NULL;
-
-	path_copy = fill_path_dir(path);
-	if (!path_copy)
-		return (NULL);
-	dirs = _strtok(path_copy, ":");
-	free(path_copy);
-	if (!dirs)
-		return (NULL);
-
-	for (index1 = 0; dirs[index1]; index1++)
-	{
-		if (add_node_end(&head, dirs[index1]) == NULL)
-		{
-			free_list(head);
-			free(dirs);
-			return (NULL);
-		}
-	}
-
-	free(dirs);
-
-	return (head);
+	*cmd = NULL;
+	return (0);
 }
