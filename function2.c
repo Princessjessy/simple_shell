@@ -1,12 +1,10 @@
 #include "shell.h"
-
 /**
- * _sridup -  pointer to a newly allocated space of the string given as a parameter.
+ * _sridup - function that returns a pointer to a newly allocated space
  * @sri: string given as a parameter.
  *
  * Return: NULL if str = NULL and On success returns a pointer to
  */
-
 char *_sridup(char *sri)
 {
 	char *newstr;
@@ -35,11 +33,12 @@ char *_sridup(char *sri)
 }
 
 /**
- * _strine - function that returns the length of a string.
+ * _strine -  returns the length of a string.
  * @c: string.
- * 
+ *
  * Return: length of a string
  */
+
 int _strine(const char *c)
 {
 	int leng = 0;

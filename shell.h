@@ -1,19 +1,25 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
+#ifndef SHELL_H
+#define SHELL_H
+/*     MOOD      */
+void interaction_mood(void);
+void nor_interaction_mood(void);
 
-/*
- * File: shell.h
- * Auth: Abdool ABDULAZIZ
- *     Festus Princess
- */
+/*     SIZE     */
+extern char **environ;
+#define MAX_NUM 10
+#define MAX_LENGHT 256
+#define BUFFER_SIZE 1024
 
-#include <fcntl.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
+/*  HEADERFILE  */
+#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <unisd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <limits.h>
+#include <fcntl.h>
 #include <errno.h>
 #include <stdio.h>
 
@@ -49,93 +55,35 @@ typedef struct builtin_s
 	int (*f)(char **argv, char **front);
 } builtin_t;
 
+/* PROTOTYPES */
+char *read_stdin(void);
+char *read_stream(void);
+char **tokenis(char *num);
+int excutcmd(char **code);
+void errors(char *s);
+char *_sridup(char *sri);
+int _strine(const char *c);
+int _strncode(const char *sri1, const char *sri2, int n);
+char *_netenvir(const char *form);
+void error(int statiss, char **s, int j);
+void _item(int sum, char *sri);
+char *_strcmds(char *test, char *snc);
+int end(char **code);
+char *_strcopy(char *test, char *src);
+int env(char **code);
+char *_strike(char *sri, char *decline);
+
+/*   STRUCTURE */
+
 /**
- * struct alias_s - A new struct defining aliases.
- * @name: The name of the alias.
- * @value: The value of the alias.
- * @next: A pointer to another struct alias_s.
+ * struct built - structure for builtins.
+ * @name: name of the builtin.
+ * @f: function prntotype.
  */
-typedef struct alias_s
+typedef struct built
 {
-	char *name;
-	char *value;
-	struct alias_s *next;
-} alias_t;
+	char *form;
+	int (*f)(char **);
+} built_in;
 
-/* Global aliases linked list */
-alias_t *aliases;
-
-/* Main Helps function  */
-ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-char **_strtok(char *line, char *delim);
-char *get_location(char *command);
-list_t *get_path_dir(char *path);
-int execute(char **args, char **front);
-void free_list(list_t *head);
-char *_itoa(int num);
-
-/* Input Helps in command line */
-void handle_line(char **line, ssize_t read);
-void variable_replacement(char **args, int *exe_ret);
-char *get_args(char *line, int *exe_ret);
-int call_args(char **args, char **front, int *exe_ret);
-int run_args(char **args, char **front, int *exe_ret);
-int handle_args(int *exe_ret);
-int check_args(char **args);
-void free_args(char **args, char **front);
-char **replace_aliases(char **args);
-
-/* Simple shell String functions  */
-int _strlen(const char *s);
-char *_strcat(char *dest, const char *src);
-char *_strncat(char *dest, const char *src, size_t n);
-char *_strcpy(char *dest, const char *src);
-char *_strchr(char *s, char c);
-int _strspn(char *s, char *accept);
-int _strcmp(char *s1, char *s2);
-int _strncmp(const char *s1, const char *s2, size_t n);
-
-/* Builtin in command line */
-int (*get_builtin(char *command))(char **args, char **front);
-int shellby_exit(char **args, char **front);
-int shellby_env(char **args, char __attribute__((__unused__)) **front);
-int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
-int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
-int shellby_cd(char **args, char __attribute__((__unused__)) **front);
-int shellby_alias(char **args, char __attribute__((__unused__)) **front);
-int shellby_helps(char **args, char __attribute__((__unused__)) **front);
-
-/*command line Builtin Helps in simple shell  */
-char **_copyenv(void);
-void free_env(void);
-char **_getenv(const char *var);
-
-/* Errors in handlining commands line */
-int create_errors(char **args, int err);
-char *errors_env(char **args);
-char *errors_1(char **args);
-char *errors_2_exit(char **args);
-char *errors_2_cd(char **args);
-char *errors_2_syntax(char **args);
-char *errors_126(char **args);
-char *errors_127(char **args);
-
-/* Listlinked Helps in command line  */
-alias_t *add_alias_end(alias_t **head, char *name, char *value);
-void free_alias_list(alias_t *head);
-list_t *add_node_end(list_t **head, char *dir);
-void free_list(list_t *head);
-
-void helps_all(void);
-void helps_alias(void);
-void helps_cd(void);
-void helps_exit(void);
-void helps_help(void);
-void helps_env(void);
-void helps_setenv(void);
-void helps_unsetenv(void);
-void helps_history(void);
-
-int proc_file_commands(char *file_path, int *exe_ret);
 #endif

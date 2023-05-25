@@ -2,18 +2,18 @@
 
 /**
  * _netenvir - the environment list to returns a pointer
- * @form: the environment variable name.
+ * @name: the environment variable name.
  *
  * Return: a pointer to the corresponding value string.
  */
-char *_netenvir(const char *form)
+char *_netenvir(const char *name)
 {
-	char **envir;
-	int leng = _strlen(form);
+char **envir;
+	int leng = _strlen(name);
 
 	for (envir = environ; *envir != NULL; ++envir)
 	{
-		if (_strncmp(*envir, form, leng) == 0)
+		if (_strncmp(*envir, name, leng) == 0)
 			return (&(*envir)[leng + 1]);
 	}
 	return (NULL);
@@ -92,7 +92,6 @@ int _getline(char **numptr, size_t *n, FILE *stream)
  * decline_select - compare a character from str to delimiters
  * @s: chararcter from str.
  * @decline: all delimiters.
- * 
  * Return: 1 if its found. and 0 if didn't found it.
  */
 
@@ -106,13 +105,12 @@ unsigned int decline_select(char s, char *decline)
 	}
 	return (0);
 }
-
 /**
- * _strike- f breaks a string into a sequence of zero 
+ * _strike - a string into a sequence of zero ormore nonempty tokens.
  * @sri: the string to be parsed
- * @decline: argument specifies a set of bytes that delimit the token.
+ * @decline: argument specifies a set of the tokensin the parsed string.
  *
- * Return: The strtok() functions return a pointer to the next token
+ * Return:a pointer to the next token or NULL.
  */
 char *_strike(char *sri, char *decline)
 {
