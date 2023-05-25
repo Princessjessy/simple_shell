@@ -2,18 +2,18 @@
 
 /**
  * _netenvir - the environment list to returns a pointer
- * @form: the environment variable name.
+ * @name: the environment variable name.
  *
  * Return: a pointer to the corresponding value string.
  */
-char *_netenvir(const char *form)
+char *_netenvir(const char *name)
 {
 	char **envir;
-	int leng = _strlen(form);
+	int leng = _strlen(name);
 
 	for (envir = environ; *envir != NULL; ++envir)
 	{
-		if (_strncmp(*envir, form, leng) == 0)
+		if (_strncmp(*envir, name, leng) == 0)
 			return (&(*envir)[leng + 1]);
 	}
 	return (NULL);
