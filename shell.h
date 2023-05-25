@@ -1,19 +1,18 @@
 #ifndef SHELL_H
 #define SHELL_H
-/*     MOOD      */
-void interaction_mood(void);
-void nor_interaction_mood(void);
-
-/*     SIZE     */
+/* MOOD */
+void interactive_mode(char *progname);
+void non_interactive_mode(char *progname);
+/* NUM */
 extern char **environ;
 #define MAX_NUM 10
 #define MAX_LENGHT 256
 #define BUFFER_SIZE 1024
 
-/*  HEADERFILE  */
+/* HEHDER *//
 #include <stdio.h>
 #include <stdlib.h>
-#include <unisd.h>
+#include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -22,33 +21,34 @@ extern char **environ;
 #include <fcntl.h>
 #include <errno.h>
 
-/* PROTOTYPES */
+/*  FUNCTTION */
 char *read_stdin(void);
 char *read_stream(void);
-char **tokenis(char *num);
-int excutcmd(char **code);
+char **tokeniz(char *line);
+int excutcmd(char **cmd);
 void errors(char *s);
-char *_sridup(char *sri);
-int _strine(const char *c);
-int _strncode(const char *sri1, const char *sri2, int n);
-char *_netenvir(const char *form);
-void error(int statiss, char **s, int j);
-void _item(int sum, char *sri);
-char *_strcmds(char *test, char *snc);
-int over(char **code);
-char *_strcopy(char *test, char *src);
-int env(char **code);
-char *_strike(char *sri, char *decline);
+char *_strdup(char *s);
+int _strlen(const char *s);
+int _strncmp(const char *str1, const char *str2, int n);
+char *_getenv(const char *name);
+void error(char *progname, int status, char **s, int running);
+void _itoa(int num, char *str);
+char *_strcat(char *dest, char *src);
+int end(char **cmd);
+char *_strcpy(char *dest, char *src);
+int env(char **cmd);
+char *_strtok(char *str, char *delim);
+int _getline(char **lineptr, size_t *n, FILE *stream);
 
-/*   STRUCTURE */
+/*  STRUCTURE  */
 /**
  * struct built - structure for builtins.
  * @name: name of the builtin.
- * @f: function prntotype.
+ * @f: function prototype.
  */
 typedef struct built
 {
-	char *form;
+	char *name;
 	int (*f)(char **);
 } built_in;
 
