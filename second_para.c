@@ -1,106 +1,68 @@
 #include "shell.h"
-
-int token_len(char *str, char *delim);
-int count_token(char *str, char *delim);
-char **_strtok(char *line, char *delim);
-
 /**
- * token_len - Locates the delimiter index marking the end
- *             of the first token contained within a string.
- * @str: The string to be searched.
- * @delim: The delimiter character.
+ * programmer - that look for the program name.
  *
- * Return: The delimiter index marking the end of
- *         the intitial token pointed to be str.
+ * Return: the program name in success.
  */
-
-int token_len(char *str, char *delim)
+char *programmer(void)
 {
-	int index1 = 0, len = 0;
+	char *progess = NULL;
+	char buffer[BUFFER_SIZE], pid[MAX_NUM], procpath[MAX_LENGHT] = "/proc/";
+	int f;
 
-	while (*(str + index1) && *(str + index1) != *delim)
+	_itoa(getpid(), pid);
+	_strcat(procpath, pid);
+	_strcat(procpath, "/cmdline");
+
+	fp = open(procpath, O_RDONLY);
+	if (f != -1)
 	{
-		len++;
-		index1++;
-	}
+		int b = read(fp, buffer, sizeof(progess));
 
-	return (len);
+		if (b != -1)
+		{
+			progess = malloc(nb * sizeof(char) + 1);
+			strncpy(progess, buffer, b);
+			progess[b] = '\0';
+			close(f);
+			return (progess);
+		}
+		close(fp);
+	}
+	return (NULL);
 }
 
 /**
- * count_tokens - Counts the number of delimited
- *                words contained within a string.
- * @str: The string to be searched.
- * @delim: The delimiter character.
- *
- * Return: The number of words contained within str.
+ * error -  handle the commands errors.
+ * @statis: statis value.
+ * @k: the command.
+ * @j: the number of command been running.
+ * Description: the statis value define the error should prompt
+ * Return: 1 command error 2 exit error
  */
-
-int count_token(char *str, char *delim)
+void error(int statis, char **k, int j)
 {
-	int index1, token = 0, len = 0;
+	char *progess = programmer();
+	char arrun[MAX_NUM];
 
-	for (index1 = 0; *(str + index1); index1++)
-		len++;
-/* adding parameter*/
-	for (index1 = 0; index1 < len; index1++)
+	_itoa(j, arrun);
+	write(STDOUT_FILENO, progess, _strlen(progess));
+	write(STDOUT_FILENO, ": ", 2);
+	write(STDOUT_FILENO, arrun, _strlen(arrun));
+	write(STDOUT_FILENO, ": ", 2);
+
+	if (statis == 1)
 	{
-		if (*(str + index1) != *delim)
-		{
-			token++;
-			index1 += token_len(str + index1, delim);
-		}
+		perror(*k);
 	}
-	return (token);
-}
-
-/**
- * _strtok - Tokenizes a string.
- * @line: The string.
- * @delim: The delimiter character to tokenize the string by.
- *
- * Return: A pointer to an array containing the tokenized words.
- */
-
-char **_strtok(char *line, char *delim)
-{
-	char **ptr;
-	int index1 = 0, token, t, letters, l;
-
-	token = count_token(line, delim);
-	if (token == 0)
-		return (NULL);
-
-	ptr = malloc(sizeof(char *) * (token + 2));
-	if (!ptr)
-		return (NULL);
-
-	for (t = 0; t < token; t++)
+	else if (statis == 2)
 	{
-		while (line[index1] == *delim)
-			index1++;
+		char exit_errs[] = "exit: Illegal number: ";
 
-		letters = token_len(line + index1, delim);
-
-		ptr[t] = malloc(sizeof(char) * (letters + 1));
-		if (!ptr[t])
-		{
-			for (index1 -= 1; index1 >= 0; index1--)
-				free(ptr[index1]);
-			free(ptr);
-			return (NULL);
-		}
-
-		for (l = 0; l < letters; l++)
-		{
-			ptr[t][l] = line[index1];
-			index1++;
-		}
-
-		ptr[t][l] = '\0';
+		write(STDOUT_FILENO, exit_errs, _strlen(exit_errs));
+		write(STDOUT_FILENO, s[1], _strlen(s[1]));
+		write(STDOUT_FILENO, "\n", 1);
 	}
-	ptr[t] = NULL;
-	ptr[t + 1] = NULL;
+	free(progess);
 
-	return (ptr);
 }
