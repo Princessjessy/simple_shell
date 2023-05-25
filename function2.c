@@ -1,106 +1,112 @@
 #include "shell.h"
 
-char *_strchr(char *s, char c);
-int _strspn(char *s, char *accept);
-int _strcmp(char *s1, char *s2);
-int _strncmp(const char *s1, const char *s2, size_t n);
-
 /**
- * _strchr - Locates a character in a string.
- * @s: The string to be searched.
- * @c: The character to be located.
+ * _sridup -  pointer to a newly allocated space of the string given as a parameter.
+ * @sri: string given as a parameter.
  *
- * Return: If c is found - a pointer to the first occurence.
- *         If c is not found - NULL.
+ * Return: NULL if str = NULL and On success returns a pointer to
  */
-char *_strchr(char *s, char c)
-{
-	int index1;
 
-	for (index1 = 0; s[index1]; index1++)
+char *_sridup(char *sri)
+{
+	char *newstr;
+	int leng;
+	int j;
+
+
+	if (sri == NULL)
 	{
-		if (s[index1] == c)
-			return (s + index1);
+		return (NULL);
 	}
-
-	return (NULL);
-}
-
-/**
- * _strspn - Gets the length of a prefix substring.
- * @s: The string to be searched.
- * @accept: The prefix to be measured.
- *
- * Return: The number of bytes in s which
- *         consist only of bytes from accept.
- */
-int _strspn(char *s, char *accept)
-{
-	int bytes = 0;
-	int index1;
-
-	while (*s)
+	else
 	{
-		for (index1 = 0; accept[index1]; index1++)
+		leng = srileng(sri);
+		newstr = malloc((sizeof(char) * leng) + 1);
+		if (newstr == NULL)
 		{
-			if (*s == accept[index1])
-			{
-				bytes++;
-				break;
-			}
+			free(newstr);
+			return (NULL);
 		}
-		s++;
+		for (j = 0; j < leng; j++)
+			newstr[j] = sri[j];
+		newstr[leng] = '\0';
 	}
-	return (bytes);
+	return  (newstr);
 }
 
 /**
- * _strcmp - Compares two strings.
- * @s1: The first string to be compared.
- * @s2: The second string to be compared.
- *
- * Return: Positive byte difference if s1 > s2
- *         0 if s1 = s2
- *         Negative byte difference if s1 < s2
+ * _strine - function that returns the length of a string.
+ * @c: string.
+ * 
+ * Return: length of a string
  */
-
-int _strcmp(char *s1, char *s2)
+int _strine(const char *c)
 {
-	while (*s1 && *s2 && *s1 == *s2)
+	int leng = 0;
+
+	while (c[leng] != '\0')
+		leng++;
+	return (leng);
+}
+
+/**
+ * _strncode - function that compares two strings tell a specific index.
+ * @sri1: first string
+ * @sri2: second string
+ * @n: index
+ * Return: return 0 if strings are equal, and -1 if its not.
+ */
+int _strncode(const char *sri1, const char *sri2, int n)
+{
+	int j;
+
+	for (j = 0; j < n; j++)
 	{
-		s1++;
-		s2++;
+		if (sri1[i] == sri2[i])
+		{
+			continue;
+		}
+		else
+		{
+			return (-1);
+		}
 	}
-
-	if (*s1 != *s2)
-		return (*s1 - *s2);
-
 	return (0);
 }
-
 /**
- * _strncmp - Compare two strings.
- * @s1: Pointer to a string.
- * @s2: Pointer to a string.
- * @n: The first n bytes of the strings to compare.
+ * _strcmds - function appends the src string to the dest string
+ * @test: first string
+ * @snc: second string
  *
- * Return: Less than 0 if s1 is shorter than s2.
- *         0 if s1 and s2 match.
- *         Greater than 0 if s1 is longer than s2.
+ * Return: a pointer to the resulting string dest
  */
-int _strncmp(const char *s1, const char *s2, size_t n)
+char *_strcmds(char *test, char *snc)
 {
-	size_t j;
+	int j = 0;
+	int r = _strlen(test);
 
-	for (j = 0; s1[j] && s2[j] && j < n; j++)
+	while (*(snc + j) != '\0')
 	{
-		if (s1[j] > s2[j])
-			return (s1[j] - s2[j]);
-		else if (s1[j] < s2[j])
-			return (s1[j] - s2[j]);
+		*(test + (r + j)) = *(snc + j);
+		j++;
 	}
-	if (j == n)
-		return (0);
-	else
-		return (-15);
+	*(test + (r + j)) = '\0';
+	return (test);
+}
+/**
+ * *_strcopy -  copies the string pointed to by src including the
+ * terminating null byte (\0), to the buffer pointed to by dest.
+ * @test: copy to
+ * @snc: copy from
+ * Return: the pointer to dest
+ */
+char *_strcopy(char *test, char *snc)
+{
+	int j = -1;
+
+	do {
+		j++;
+		*(test + j) = *(snc + j);
+	} while (*(snc + j) != '\0');
+	return (test);
 }
