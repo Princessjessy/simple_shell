@@ -1,8 +1,11 @@
 #include "shell.h"
+
 /**
- *free_me - function to free memory
+ *free_me - free memory
  *@input: pointer to command
  *@run: pointer to line
+ *
+ *Return: nothing
  */
 void free_me(char **input, char *run)
 {
@@ -12,39 +15,41 @@ void free_me(char **input, char *run)
 	run = NULL;
 }
 /**
- *mem_arr - Function to fill array
+ *mem_arr -  fill array
  *@prt: pointer
  *@num: int
  *@run: value of int
- *Return: filled arr
+ *
+ *Return: array
  */
 void *mem_arr(void *prt, int num, unsigned int run)
 {
-	unsigned int a = 0;
-	char *b = prt;
+	unsigned int i = 0;
+	char *j = prt;
 
-	while (a < run)
+	while (i < run)
 	{
-		*b = num;
-		b++;
-		a++;
+		*j = num;
+		j++;
+		i++;
 	}
 	return (prt);
 }
 /**
- *my_memcpy - function to copy memory bytes
+ *my_memcpy - copy memory bytes
  *@tmp: pointer to dest
  *@input: pointer
  *@num: sizw of byte to copy
+ *
  *Return: pointer to dest
  */
 char *my_memcpy(char *tmp, char *input, unsigned int num)
 {
-	unsigned int a;
+	unsigned int b;
 
-	for (a = 0; a < num; a++)
+	for (b = 0; b < num; b++)
 	{
-		tmp[a] = input[a];
+		tmp[b] = input[b];
 	}
 	return (tmp);
 }

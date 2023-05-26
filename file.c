@@ -4,13 +4,14 @@
  *exec_cmd - Function to Execute command
  *@input: Pointer to command
  *@run: pointer to recieved cmd
- *@s: line execute
+ *@c: line execute
  *@argv: Shell Arguments
- *Return: 1 if failed and 0 on execute
+ *
+ *Return: 1  fail  0  execute
  */
-int exec_cmd(char **input, char *run, int s, char **argv)
+int exec_cmd(char **input, char *run, int c, char **argv)
 {
-	int check;
+	int result;
 	pid_t pid;
 
 	if (!*input)
@@ -29,7 +30,7 @@ int exec_cmd(char **input, char *run, int s, char **argv)
 		}
 		if (access(input[0], R_OK) != 0)
 		{
-			dis_err(input[0], s, argv);
+			dis_err(input[0], c, argv);
 			free_me(input, run);
 			exit(127);
 		}
@@ -38,14 +39,15 @@ int exec_cmd(char **input, char *run, int s, char **argv)
 		else
 			return (0);
 	}
-	wait(&check);
-	if (WIFEXITED(check))
+/* agrument command line */
+	wait(&result);
+	if (WIFEXITED(result))
 	{
-		if (WEXITSTATUS(check) == 127)
+		if (WEXITSTATUS(result) == 127)
 			return (127);
-		else if (WEXITSTATUS(check) == 0)
+		else if (WEXITSTATUS(result) == 0)
 			return (0);
-		else if (WEXITSTATUS(check) == 2)
+		else if (WEXITSTATUS(result) == 2)
 			return (2);
 	}
 	return (127);

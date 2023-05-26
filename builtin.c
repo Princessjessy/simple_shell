@@ -4,17 +4,18 @@
  * check_my_delim - function that checks if a character inputted
  * by user matches any character
  * @s: pointer to the character to check
- * @st: pointer to thr string of delimiters
- * Return: 1 on success, 0 on failure
+ * @str: pointer to thr string of delimiters
+ *
+ * Return: 1  success, 0  failure
  */
 
-unsigned int check_my_delim(char s, const char *st)
+unsigned int check_my_delim(char s, const char *str)
 {
-	unsigned int a;
+	unsigned int b;
 
-	for (a = 0; st[a] != '\0'; a++)
+	for (b = 0; str[b] != '\0'; b++)
 	{
-		if (s == st[a])
+		if (s == str[b])
 			return (1);
 	}
 	return (0);

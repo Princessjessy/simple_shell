@@ -1,11 +1,10 @@
 #include "shell.h"
-
 /**
  *ch_dir - Function to change directory
  *@line: Command line
- *@c: command status
+ *@c: command structure
  *
- *Return: 0 on success
+ *Return: 0  success
  */
 int ch_dir(char **line, __attribute__((unused))int c)
 {
@@ -18,7 +17,7 @@ int ch_dir(char **line, __attribute__((unused))int c)
 		count = chdir(getenv("OLDPWD"));
 	else
 		count = chdir(line[1]);
-
+/* change directary */
 	if (count == -1)
 	{
 		perror("hsh");
@@ -32,23 +31,24 @@ int ch_dir(char **line, __attribute__((unused))int c)
 	}
 	return (0);
 }
+
 /**
  *print_env - Function to print env
  *@line: Line command
  *@s: command status
  *
- *Return: 0 always
+ *Return: 0 sucess
  */
 int print_env(__attribute__((unused)) char **line,
 		__attribute__((unused)) int s)
 {
 	int val;
-	size_t a;
-
-	for (a = 0; environ[a] != NULL; a++)
+	size_t b;
+/* environ command */
+	for (b = 0; environ[b] != NULL; b++)
 	{
-		val = my_strlen(environ[a]);
-		write(1, environ[a], val);
+		val = my_strlen(environ[b]);
+		write(1, environ[b], val);
 		write(STDOUT_FILENO, "\n", 1);
 	}
 	return (0);

@@ -3,20 +3,21 @@
 /**
  *my_getenv - Function to get eniron
  *@env: pointer to environ
- *Return: total environ or NULL
+ *
+ *Return: NULL
  */
 char *my_getenv(char *env)
 {
 	size_t env_len, total_len;
 	char *total;
-	int a, b, c;
+	int i, j, k;
 
 	env_len = my_strlen(env);
-	for (a = 0; environ[a]; a++)
+	for (i = 0; environ[i]; i++)
 	{
-		if (my_strncmp(env, environ[a], env_len) == 0)
+		if (my_strncmp(env, environ[i], env_len) == 0)
 		{
-			total_len = my_strlen(environ[a]) - env_len;
+			total_len = my_strlen(environ[i]) - env_len;
 			total = malloc(sizeof(char) * total_len);
 			if (total == NULL)
 			{
@@ -24,28 +25,29 @@ char *my_getenv(char *env)
 				perror("unable to alloc");
 				return (NULL);
 			}
-			b = 0;
-			for (c = env_len + 1; environ[a][c]; c++, b++)
+			j = 0;
+			for (k = env_len + 1; environ[i][k]; k++, j++)
 			{
-				total[b] = environ[a][c];
+				total[j] = environ[i][k];
 			}
-			total[b] = '\0';
+			total[j] = '\0';
 			return (total);
 		}
 	}
 	return (NULL);
 }
 /**
- *create_cmd - Function to create cmd
- *@input: Pointer to cmd
+ *create_cmd -  create command
+ *@input: Pointer to commandd
  *@total: pointer to Directory
+ *
  *Return: path or NULL on failure
  */
 char *create_cmd(char *input, char *total)
 {
 	char *token;
 	size_t run;
-
+/* create command */
 	run = my_strlen(total) + my_strlen(input) + 2;
 	token = malloc(sizeof(char) * run);
 	if (!token)

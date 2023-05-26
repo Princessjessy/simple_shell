@@ -3,7 +3,8 @@
 /**
  *builtin_val - Check Builtin cmd
  *@line: command line
- *Return: O on Success and 1 on failure
+ *
+ *Return: O  Success  1  failure
  */
 int builtin_val(char **line)
 {
@@ -14,24 +15,26 @@ int builtin_val(char **line)
 		{"history", NULL},
 		{NULL, NULL}
 	};
-	int a = 0;
-
+	int b = 0;
+/* built_in check */
 	if (*line == NULL)
 		return (-1);
-	while ((functions + a)->cmd)
+	while ((functions + b)->cmd)
 	{
-		if (my_strcmp(line[0], (functions + a)->cmd) == 0)
+		if (my_strcmp(line[0], (functions + b)->cmd) == 0)
 			return (0);
-		a++;
+		b++;
 	}
 	return (-1);
 }
 /**
  *process_builtin - Handle builtin
  *@line: Command line
- *@c: Command status
- *Return: 0 on success and 1 on failure
+ *@c: Command struture
+ *
+ *Return: 0 success 1  failure
  */
+
 int process_builtin(char **line, int c)
 {
 	builtincmd run_builtin[] = {
@@ -41,16 +44,16 @@ int process_builtin(char **line, int c)
 		{"history", echo_history},
 		{NULL, NULL}
 	};
-	int a = 0;
+	int b = 0;
 
-	while ((run_builtin + a)->cmd)
+	while ((run_builtin + b)->cmd)
 	{
-
-		if (my_strcmp(line[0], (run_builtin + a)->cmd) == 0)
+/* built_in handling */
+		if (my_strcmp(line[0], (run_builtin + b)->cmd) == 0)
 		{
-			return ((run_builtin + a)->func(line, c));
+			return ((run_builtin + b)->func(line, c));
 		}
-		a++;
+		b++;
 	}
 	return (-1);
 }

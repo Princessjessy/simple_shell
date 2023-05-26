@@ -3,14 +3,15 @@
 /**
  *echo_handler - Builtin echo handler
  *@line: command line
- *@c: command status
- *Return: 1 always
+ *@c: command structure
+ *
+ *Return: 1 sucessful
  */
 int echo_handler(char **line, int c)
 {
 	unsigned int pid;
 	char *find_path;
-
+/* builtin command line */
 	pid = getppid();
 	if (my_strncmp(line[1], "$?", 2) == 0)
 	{
@@ -36,32 +37,33 @@ int echo_handler(char **line, int c)
 /**
  *echo_history - Function to keep history
  *@run: command line
- *@ch: command status
- *Return: Always 0
+ *@ch: command struture
+ *
+ *Return:  0 sucessful
  */
 int echo_history(__attribute__((unused))char **run,
 		__attribute__((unused))int ch)
 {
-	FILE *fl;
-	char *s, *input = NULL;
+	FILE *fi;
+	char *c, *input = NULL;
 	char *fname = ".display_history";
 	size_t buf = 0;
 	int value = 0;
-
-	fl = fopen(fname, "r");
-	if (!fl)
+/* input file */
+	fi = fopen(fname, "r");
+	if (!fi)
 		return (-1);
-	while ((getline(&input, &buf, fl)) != -1)
+	while ((getline(&input, &buf, fi)) != -1)
 	{
 		value++;
-		s = my_itoa(value);
-		PRINTF(s);
-		free(s);
+		c = my_itoa(value);
+		PRINTF(c);
+		free(c);
 		PRINTF(" ");
 		PRINTF(input);
 	}
 	if (input != NULL)
 		free(input);
-	fclose(fl);
+	fclose(fi);
 	return (0);
 }

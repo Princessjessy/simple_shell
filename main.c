@@ -4,18 +4,19 @@
  *main - Shell main function
  *@argc: Count arguments
  *@argv: Argument array
+ *
  *Return: return command
  */
 int main(__attribute__((unused)) int argc, char **argv)
 {
 	char *run, **line, **parse;
 	int value = 0, i, k = 1, c = 0;
-
+/* agrument command  */
 	if (argv[1])
-/*		file_reader(argv[1], argv);*/
 	signal(SIGINT, handle_signal);
 	while (k)
 	{
+/* interactive mood */
 		value++;
 		if (isatty(STDIN_FILENO))
 			prompt();
@@ -31,6 +32,7 @@ int main(__attribute__((unused)) int argc, char **argv)
 			{
 				free(parse);
 				my_exit(line, run, argv, k, c);
+				/* exit command */
 			}
 			else if (builtin_val(line) == 0)
 			{
