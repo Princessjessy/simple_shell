@@ -1,76 +1,47 @@
 #include "shell.h"
 /**
- *my_strcpy - function that copy source
- *@buf: pointer to the destination
- *@snc: pointer to the source
- *
- *Return: char copied
- */
-char *my_strcpy(char *buf, char *snc)
-{
-	int b = 0;
-
-	while (snc[b])
-	{
-		buf[b] = snc[b];
-		b++;
-	}
-	buf[b] = '\0';
-	return (buf);
-}
-/**
- *my_strcat - function that concat two string
- *@dest: pointer to the first string
- *@str: pointer to the seecond string
- *
- *Return: pointer to string
- */
-char *my_strcat(char *dest, char *str)
-{
-	char *ct = dest;
-
-	while (*dest != '\0')
-	{
-		dest++;
-	}
-	while (*str != '\0')
-	{
-		*dest = *str;
-		dest++;
-		str++;
-	}
-	*dest = '\0';
-	return (ct);
-/**
- * dis_num - display integers using _putchar function
- * @num: Unsigned integer
- */
-void dis_num(unsigned int num)
-{
-	unsigned int b = num;
-
-	if ((b / 10) > 0)
-		dis_num(b / 10);
-
-	_putchar(b % 10 + '0');
-}
-
-/**
- * dis_int - display integers using _putchar function
- * @num: Integer
+ * my_strtok - function that extracts tokens from a string
+ * @st: pointer to the string
+ * @tk: pointer to the delimiter
+ * Return: pointer to the next token or NULL if none
  */
 
-void dis_int(int num)
+char *my_strtok(char *st, const char *tk)
 {
-	unsigned int b = num;
+	static char *t, *s;
+	unsigned int a;
 
-	if (num < 0)
+	if (st != NULL)
+		s = st;
+	t = s;
+	if (t == NULL)
+		return (NULL);
+	for (a = 0; t[a] != '\0'; a++)
 	{
-		_putchar('-');
-		b = -b;
+		if (check_my_delim(t[a], tk) == 0)
+			break;
 	}
-	if ((b / 10) > 0)
-		dis_num(b / 10);
+	if (s[a] == '\0' || s[a] == '#')
+	{
+		s = NULL;
+		return (NULL);
+	}
+	t = s + a;
+	s = t;
+	for (a = 0; s[a] != '\0'; a++)
+	{
+		if (check_my_delim(s[a], tk) == 1)
+			break;
+	}
+	if (s[a] == '\0')
+		s = NULL;
+	else
+	{
+		s[a] = '\0';
+		s = s + a + 1;
 
-	_putchar(b % 10 + '0');
+		if (*s == '\0')
+			s = NULL;
+	}
+	return (t);
 }
