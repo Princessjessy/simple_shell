@@ -24,7 +24,7 @@ char *my_strtok(char *st, const char *tk)
 	}
 	if (b[i] == '\0' || b[i] == '#')
 	{
-		s = NULL;
+		b = NULL;
 		return (NULL);
 	}
 	a = b + i;
