@@ -1,15 +1,16 @@
 #include "shell.h"
 
 /**
- *run_cmd - Funtion to parse stdin command
+ *run_cmd - stdin command
  *@line: string parse to command
+ *
  *Return: command
  */
 char **run_cmd(char *line)
 {
 	char **inputs, *input;
-	int a, buf = BUF_SIZ;
-
+	int b, buf = BUF_SIZ;
+/* strong ptr*/
 	if (line[0] == ' ' && line[my_strlen(line)] == ' ')
 		exit(0);
 	if (!line)
@@ -22,11 +23,11 @@ char **run_cmd(char *line)
 		return (NULL);
 	}
 	input = my_strtok(line, "\n\t\r\a ");
-	for (a = 0; input; a++)
+	for (b = 0; input; b++)
 	{
-		inputs[a] = input;
+		inputs[b] = input;
 		input = my_strtok(NULL, "\n\t\r\a ");
 	}
-	inputs[a] = NULL;
+	inputs[b] = NULL;
 	return (inputs);
 }
