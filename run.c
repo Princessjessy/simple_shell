@@ -3,65 +3,67 @@
 /**
  *my_strlen - function to count string lenght
  *@str: string pointer
+ *
  *Return: lenght
  */
 
 int my_strlen(char *str)
 {
-	int a;
+	int b;
 
-	for (a = 0; str[a] != '\0'; a++)
+	for (b = 0; str[b] != '\0'; b++)
 	{
 		continue;
 	}
-	return (a);
+	return (b);
 }
 /**
  *_putchar - writes the character c to stdout
  *@c: The character to print
  *
- *Return: On success 1.
- *On error, -1 is returned, and errno is set appropriately.
+ *Return: 1 success 
  */
 int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
 /**
- *my_strncpy - function to copy a string
+ *my_strncpy -  copy a string
  *@dst: pointer to a string
  *@sc: pointer to second string
  *@n: integer
+ *
  *Return: string copied
  */
 char *my_strncpy(char *dst, char *sc, int n)
 {
-	int a = 0;
+	int b = 0;
 
-	while (a < n && *(sc + a))
+	while (b < n && *(sc + b))
 	{
-		*(dst + a) = *(sc + a);
-		a++;
+		*(dst + b) = *(sc + b);
+		b++;
 	}
-	while (a < n)
+	while (b < n)
 	{
-		*(dst + a) = '\0';
-		a++;
+		*(dst + b) = '\0';
+		b++;
 	}
 	return (dst);
 }
 /**
- *my_puts - function to print a string
+ *my_puts -  print a string
  *@stri: pointer to the string
+ *
  *Return: void
  */
 void my_puts(char *stri)
 {
-	int a;
+	int b;
 
-	for (a = 0; stri[a] != '\0'; a++)
+	for (b = 0; stri[b] != '\0'; b++)
 	{
-		_putchar(stri[a]);
+		_putchar(stri[b]);
 	}
 	_putchar('\n');
 }
@@ -70,21 +72,21 @@ void my_puts(char *stri)
  *@st: pointer to a string
  *Return: the int value
  */
-int my_atoi(char *st)
+int my_atoi(char *str)
 {
-	int i;
+	int a;
 	int x = 0;
 	int y = -1;
 	int z = 0;
 
-	for (i = 0; st[i] != '\0'; i++)
+	for (a = 0; str[a] != '\0'; a++)
 	{
-		if (st[i] == '-')
+		if (str[a] == '-')
 			y = y * -1;
-		if (st[i] >= '0' && st[i] <= '9')
+		if (str[a] >= '0' && str[a] <= '9')
 		{
 			x = x * 10;
-			x -= (st[i] - '0');
+			x -= (str[a] - '0');
 			z = 1;
 		}
 		else if (z == 1)
