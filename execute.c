@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- *handle_signal - handle ctrl C
- *
+ *handle_signal - handle ctrl c
  *@check: parse in line
+ *
  *Return: newline 
  */
 void handle_signal(int check)
