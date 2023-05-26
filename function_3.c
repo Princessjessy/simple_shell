@@ -2,13 +2,14 @@
 
 /**
 *my_getline - function that reads input by user
+*
 * Return: the input by user on a buffer
 */
 
 char *my_getline()
 {
 	int tmp, tmp2, buffsz = BUF_SIZ;
-	char s = 0, *buffer, *buf;
+	char c = 0, *buffer, *buf;
 
 	buffer = malloc(buffsz);
 	if (!buffer)
@@ -16,18 +17,18 @@ char *my_getline()
 		free(buffer);
 		return (NULL);
 	}
-	for (tmp = 0; s != EOF && s != '\n'; tmp++)
+	for (tmp = 0; c != EOF && c != '\n'; tmp++)
 	{
 		fflush(stdin);
-		tmp2 = read(STDIN_FILENO, &s, 1);
+		tmp2 = read(STDIN_FILENO, &c, 1);
 		if (tmp2 == 0)
 		{
 			free(buffer);
 			exit(EXIT_SUCCESS);
 		}
-		buffer[tmp] = s;
+		buffer[tmp] = c;
 		if (buffer[0] == '\n')
-			return (my_ent(buffer));
+			return (my_new(buffer));
 		if (tmp >= buffsz)
 		{
 			buffer = realloc(buffer, (buffsz + 2));
@@ -45,30 +46,34 @@ char *my_getline()
 	return (buf);
 }
 /**
- * make_env - Creates env Variables
+ * make_env - Creates env 
  * @line: Array to store
+ *
+ * Return: nothing
  */
 
 void make_env(char **line)
 {
-	int a;
+	int b;
 
-	for (a = 0; environ[a]; a++)
-		line[a] = my_strdup(environ[a]);
-	line[a] = NULL;
+	for (b = 0; environ[b]; b++)
+		line[b] = my_strdup(environ[b]);
+	line[b] = NULL;
 }
 
 /**
  * env_mem_free - Frees env memory array
  * @input:  Array of Environment variables
+ *
+ * Return: nothing
  */
 
 void env_mem_free(char **input)
 {
-	int a;
+	int b;
 
-	for (a = 0; input[a]; a++)
+	for (b = 0; input[b]; b++)
 	{
-		free(input[a]);
+		free(input[b]);
 	}
 }
