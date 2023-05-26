@@ -1,16 +1,15 @@
 #include "shell.h"
+
 /**
  *free_me - function to free memory
- *@imput: pointer to command
+ *@input: pointer to command
  *@run: pointer to line
- *
- *Return: nothing
  */
-void free_me(char **imput, char *run)
+void free_me(char **input, char *run)
 {
-	free(imput);
+	free(input);
 	free(run);
-	imput = NULL;
+	input = NULL;
 	run = NULL;
 }
 /**
@@ -18,7 +17,6 @@ void free_me(char **imput, char *run)
  *@prt: pointer
  *@num: int
  *@run: value of int
- *
  *Return: filled arr
  */
 void *mem_arr(void *prt, int num, unsigned int run)
@@ -37,18 +35,17 @@ void *mem_arr(void *prt, int num, unsigned int run)
 /**
  *my_memcpy - function to copy memory bytes
  *@tmp: pointer to dest
- *@imput: pointer
+ *@input: pointer
  *@num: sizw of byte to copy
- *
  *Return: pointer to dest
  */
-char *my_memcpy(char *tmp, char *imput, unsigned int num)
+char *my_memcpy(char *tmp, char *input, unsigned int num)
 {
-	unsigned int b;
+	unsigned int i;
 
-	for (b = 0; b < num; b++)
+	for (i = 0; i < num; i++)
 	{
-		tmp[b] = imput[b];
+		tmp[i] = input[i];
 	}
 	return (tmp);
 }

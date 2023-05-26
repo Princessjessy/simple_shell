@@ -3,12 +3,11 @@
 /**
  *my_calloc - memory allocator
  *@value: size of memory
- *
  *Return: pointer
  */
 void *my_calloc(unsigned int value)
 {
-	unsigned int b;
+	unsigned int a;
 	char *tmp;
 
 	if (value == 0)
@@ -16,32 +15,31 @@ void *my_calloc(unsigned int value)
 	tmp = malloc(value);
 	if (!tmp)
 		return (NULL);
-	for (b = 0; b < value; b++)
+	for (a = 0; a < value; a++)
 	{
-		tmp[b] = '\0';
+		tmp[a] = '\0';
 	}
 	return (tmp);
 }
 /**
  *my_realloc - memory allocator
  *@point: pointer value
- *@old_c: current memory size
- *@new_c: new memory size
- *
+ *@old_s: current memory size
+ *@new_s: new memory size
  *Return: pointer to the new memory allocated
  */
-void *my_realloc(void *point, unsigned int old_c, unsigned int new_c)
+void *my_realloc(void *point, unsigned int old_s, unsigned int new_s)
 {
 	void *output;
 
-	if (new_c == old_c)
+	if (new_s == old_s)
 		return (point);
-	if (new_c == 0 && point)
+	if (new_s == 0 && point)
 	{
 		free(point);
 		return (NULL);
 	}
-	output = malloc(new_c);
+	output = malloc(new_s);
 	if (!output)
 	{
 		free(output);
@@ -49,12 +47,12 @@ void *my_realloc(void *point, unsigned int old_c, unsigned int new_c)
 	}
 	if (!point)
 	{
-		mem_arr(output, '\0', new_c);
+		mem_arr(output, '\0', new_s);
 		free(point);
 	}
 	else
 	{
-		my_memcpy(output, point, old_c);
+		my_memcpy(output, point, old_s);
 		free(point);
 	}
 	return (output);

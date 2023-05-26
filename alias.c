@@ -8,7 +8,7 @@
  * Return: 1  success, 0  failure
  */
 
-unsigned int check_my_delime(char c, const char *str)
+unsigned int check_my_delim(char c, const char *str)
 {
 	unsigned int b;
 

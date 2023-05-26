@@ -3,11 +3,10 @@
 /**
  *echo_handler - Builtin echo handler
  *@line: command line
- *@s: command status
- *
+ *@c: command status
  *Return: 1 always
  */
-int echo_handling(char **line, int s)
+int echo_handler(char **line, int c)
 {
 	unsigned int pid;
 	char *find_path;
@@ -37,33 +36,32 @@ int echo_handling(char **line, int s)
 /**
  *echo_history - Function to keep history
  *@run: command line
- *@th: command status
- *
+ *@ch: command status
  *Return: Always 0
  */
-int echo_histories(__attribute__((unused))char **run,
-		__attribute__((unused))int th)
+int echo_history(__attribute__((unused))char **run,
+		__attribute__((unused))int ch)
 {
-	FILE *fe;
-	char *c, *imput = NULL;
+	FILE *fl;
+	char *s, *input = NULL;
 	char *fname = ".display_history";
 	size_t buf = 0;
 	int value = 0;
 
-	fe = fopen(fname, "r");
-	if (!fe)
+	fl = fopen(fname, "r");
+	if (!fl)
 		return (-1);
-	while ((getline(&imput, &buf, fe)) != -1)
+	while ((getline(&input, &buf, fl)) != -1)
 	{
 		value++;
-		c = my_itoa(value);
-		PRINTF(c);
-		free(c);
+		s = my_itoa(value);
+		PRINTF(s);
+		free(s);
 		PRINTF(" ");
-		PRINTF(imput);
+		PRINTF(input);
 	}
-	if (imput != NULL)
-		free(imput);
-	fclose(fe);
+	if (input != NULL)
+		free(input);
+	fclose(fl);
 	return (0);
 }

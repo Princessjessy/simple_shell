@@ -1,55 +1,56 @@
 #include "shell.h"
 
 /**
- *ch_dir - Function to change directories
- *@line: Command line
- *@s: command status.
- *
- *Return: 0  success 1 fails
+ *builtin_val - Check Builtin cmd
+ *@line: command line
+ *Return: O on Success and 1 on failure
  */
-int ch_dir(char **line, __attribute__((unused))int s)
+int builtin_val(char **line)
 {
-	int change = -1;
-	char cwd[PATH_MAX];
+	builtincmd functions[] = {
+		{"cd", NULL},
+		{"echo", NULL},
+		{"env", NULL},
+		{"history", NULL},
+		{NULL, NULL}
+	};
+	int a = 0;
 
-	if (line[1] == NULL)
-		change = chdir(getenv("HOME"));
-	else if (my_strcmp(line[1], "-") == 0)
-		change = chdir(getenv("OLDPWD"));
-	else
-		change = chdir(line[1]);
-
-	if (change == -1)
-	{
-		perror("hsh");
+	if (*line == NULL)
 		return (-1);
-	}
-	else if (change != -1)
+	while ((functions + a)->cmd)
 	{
-		getcwd(cwd, sizeof(cwd));
-		setenv("OLDPWD", getenv("PWD"), 1);
-		setenv("PWD", cwd, 1);
+		if (my_strcmp(line[0], (functions + a)->cmd) == 0)
+			return (0);
+		a++;
 	}
-	return (0);
+	return (-1);
 }
 /**
- *print_env - Function to print env
- *@line: Line command
- *@c: command status
- *
- *Return: 0 everytime
+ *process_builtin - Handle builtin
+ *@line: Command line
+ *@c: Command status
+ *Return: 0 on success and 1 on failure
  */
-int print_env(__attribute__((unused)) char **line,
-		__attribute__((unused)) int c)
+int process_builtin(char **line, int c)
 {
-	int vau;
-	size_t b;
+	builtincmd run_builtin[] = {
+		{"cd", ch_dir},
+		{"env", print_env},
+		{"echo", echo_handler},
+		{"history", echo_history},
+		{NULL, NULL}
+	};
+	int a = 0;
 
-	for (b = 0; environ[b] != NULL; b++)
+	while ((run_builtin + a)->cmd)
 	{
-		vau = my_strlen(environ[b]);
-		write(1, environ[b], vau);
-		write(STDOUT_FILENO, "\n", 1);
-	}
-	return (0);
 
+		if (my_strcmp(line[0], (run_builtin + a)->cmd) == 0)
+		{
+			return ((run_builtin + a)->func(line, c));
+		}
+		a++;
+	}
+	return (-1);
+}
