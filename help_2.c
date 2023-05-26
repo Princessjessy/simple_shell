@@ -1,98 +1,75 @@
 #include "shell.h"
-
 /**
- *my_strlen - function to count string lenght
- *@str: string pointer
- *
- *Return: lenght
+ *my_strcpy - function that copy source
+ *@buf: pointer to the destination
+ *@sc: pointer to the source
+ *Return: char copied
  */
-
-int my_strlen(char *str)
+char *my_strcpy(char *buf, char *sc)
 {
-	int b;
+	int a = 0;
 
-	for (b = 0; str[b] != '\0'; b++)
+	while (sc[a])
 	{
-		continue;
+		buf[a] = sc[a];
+		a++;
 	}
-	return (b);
+	buf[a] = '\0';
+	return (buf);
 }
 /**
- *_putchar - writes the character c to stdout
- *@c: The character to print
- *
- *Return: On success 1.
+ *my_strcat - function that concat two string
+ *@dest: pointer to the first string
+ *@sr: pointer to the seecond string
+ *Return: pointer to string
  */
-int _putchar(char s)
+char *my_strcat(char *dest, char *sr)
 {
-	return (write(1, &s, 1));
+	char *ct = dest;
+
+	while (*dest != '\0')
+	{
+		dest++;
+	}
+	while (*sr != '\0')
+	{
+		*dest = *sr;
+		dest++;
+		sr++;
+	}
+	*dest = '\0';
+	return (ct);
 }
 /**
- *my_strncpy - function to copy a string
- *@dest: pointer to a string
- *@snc: pointer to second string
- *@n: integer
- *
- *Return: string copied
+ * dis_num - display integers using _putchar function
+ * @num: Unsigned integer
  */
-char *my_strncpy(char *dest, char *snc, int n)
+void dis_num(unsigned int num)
 {
-	int b = 0;
+	unsigned int a = num;
 
-	while (b < n && *(snc + b))
-	{
-		*(dest + b) = *(snc + b);
-		b++;
-	}
-	while (b < n)
-	{
-		*(dest + b) = '\0';
-		b++;
-	}
-	return (dest);
+	if ((a / 10) > 0)
+		dis_num(a / 10);
+
+	_putchar(a % 10 + '0');
 }
-/**
- *my_puts - function to print a string
- *@str: pointer to the string
- *
- *Return: void
- */
-void my_puts(char *str)
-{
-	int b;
 
-	for (b = 0; str[b] != '\0'; b++)
-	{
-		_putchar(str[b]);
-	}
-	_putchar('\n');
-}
 /**
- *my_atoi - function to convert string to int
- *@st: pointer to a string
- *
- *Return: the int value
+ * dis_int - display integers using _putchar function
+ * @num: Integer
  */
-int my_atoi(char *str)
-{
-	int j;
-	int u = 0;
-	int v = -1;
-	int w = 0;
 
-	for (j = 0; str[j] != '\0'; j++)
+void dis_int(int num)
+{
+	unsigned int a = num;
+
+	if (num < 0)
 	{
-		if (str[j] == '-')
-			v = v * -1;
-		if (str[j] >= '0' && str[j] <= '9')
-		{
-			u = u * 10;
-			u -= (str[j] - '0');
-			w = 1;
-		}
-		else if (w == 1)
-			break;
+		_putchar('-');
+		a = -a;
 	}
-	u = v * u;
-	return (u);
+	if ((a / 10) > 0)
+		dis_num(a / 10);
+
+	_putchar(a % 10 + '0');
 }
