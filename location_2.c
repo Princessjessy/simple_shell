@@ -27,7 +27,7 @@ void my_arr_rev(char *ar, int m)
 	char buf;
 	int b;
 
-	for (b = 0; a < (m / 2); b++)
+	for (b = 0; b < (m / 2); b++)
 	{
 		buf = ar[b];
 		ar[b] = ar[(m - 1) - b];
