@@ -1,15 +1,16 @@
 #include "shell.h"
 
 /**
- *sep_handler - Function to handle seperator
+ *sep_handler - handle seperator
  *@cmd: command to run
+ *
  *Return: all command
  */
 char **sep_handler(char *cmd)
 {
 	char **inputs;
 	char *input;
-	int a;
+	int b;
 	int buff = BUF_SIZ;
 
 	if (cmd[0] == ' ' && cmd[my_strlen(cmd)] == ' ')
@@ -24,17 +25,18 @@ char **sep_handler(char *cmd)
 		return (NULL);
 	}
 	input = my_strtok(cmd, ";&");
-	for (a = 0; input; a++)
+	for (b = 0; input; b++)
 	{
-		inputs[a] = input;
+		inputs[b] = input;
 		input = my_strtok(NULL, ";&");
 	}
-	inputs[a] = NULL;
+	inputs[b] = NULL;
 	return (inputs);
 }
 /**
- *dis_history - Function to keep users history
+ *dis_history -  users history
  *@line: Command line
+ *
  *Return: 1 on success
  */
 int dis_history(char *line)
