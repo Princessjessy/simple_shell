@@ -1,94 +1,38 @@
 #include "shell.h"
 
 /**
- *my_strdup - function that double a string
- *@st: pointer to the string
- *Return: duplicate
+ *my_perror - function to print custom error
+ *@argv: Pointer to command arguments
+ *@str: char line
+ *@line: Command line
  */
-char *my_strdup(char *st)
+void my_perror(char **argv, int str, char **line)
 {
-	size_t change;
-	size_t b;
-	char *st2;
+	char *error_msg = my_itoa(str);
 
-	change = my_strlen(st);
-	st2 = malloc(sizeof(char) * (change + 1));
-
-	if (st2 == NULL)
-		return (NULL);
-	for (b = 0; b <= change; b++)
-	{
-		st2[b] = st[b];
-	}
-	return (st2);
+	PRINTF(argv[0]);
+	PRINTF(": ");
+	PRINTF(error_msg);
+	PRINTF(": ");
+	PRINTF(line[0]);
+	PRINTF(": Illegal number: ");
+	PRINTF(line[1]);
+	PRINTF("\n");
+	free(error_msg);
 }
 /**
- *my_strncmp - function that compare two strings
- *@str1: pointer to the first string
- *@str2: pointer to the second string
- *@num: value of char compared
- *Return: 0 on success
+ *my_error - function to print custom error
+ *@argv: Pointer to command arguments
+ *@str: char line
  */
-int my_strncmp(const char *str1, const char *str2, size_t num)
+void my_error(char **argv, int str)
 {
-	size_t b;
+	char *error_msg = my_itoa(str);
 
-	if (!str1)
-		return (-1);
-	for (b = 0; b < num && str2[b]; b++)
-	{
-		if (str1[b] != str2[b])
-			return (1);
-	}
-	return (0);
-}
-/**
- *my_strchr - function that check char in a string
- *@str: pointer to the string
- *@s: char in the string
- *Return: pointer to the string
- */
-char *my_strchr(char *str, char c)
-{
-
-	for (; *str != '\0'; str++)
-	{
-		if (*str == c)
-		{
-			return (str);
-		}
-	}
-	return (NULL);
-}
-/**
- * dis_echo - Function for built-in echo function
- * @line: Pointer to command
- * Return: 0 Upon Success -1 Upon Failure
- */
-
-int dis_echo(char **line)
-{
-	pid_t pid;
-	int result;
-
-	pid = fork();
-	if (pid == 0)
-	{
-	if (execve("/bin/echo", line, environ) == -1)
-	{
-		return (-1);
-	}
-		exit(EXIT_FAILURE);
-	}
-	else if (pid < 0)
-	{
-		return (-1);
-	}
-	else
-	{
-		do {
-			waitpid(pid, &result, WUNTRACED);
-		} while (!WIFEXITED(result) && !WIFSIGNALED(result));
-	}
-	return (1);
+	PRINTF(argv[0]);
+	PRINTF(": ");
+	PRINTF(": Can't open ");
+	PRINTF(argv[1]);
+	PRINTF("\n");
+	free(error_msg);
 }
