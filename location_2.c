@@ -1,60 +1,107 @@
 #include "shell.h"
 
 /**
- *sep_handler - Function to handle seperator
- *@cmd: command to run
- *Return: all command
+ *my_intlen - function to get the lenght of int
+ *@n: value of the lenght
+ *Return: lenght
  */
-char **sep_handler(char *cmd)
+int my_intlen(int n)
 {
-	char **imputs;
-	char *imput;
-	int b;
-	int buff = BUF_SIZ;
+	int count = 0;
 
-	if (cmd[0] == ' ' && cmd[my_strlen(cmd)] == ' ')
-		exit(0);
-	if (!cmd)
-		return (NULL);
-	imputs = malloc(sizeof(char *) * buff);
-	if (imputs == NULL)
+	while (n != 0)
 	{
-		free(imputs);
-		perror("hsh");
-		return (NULL);
+		count++;
+		n /= 10;
 	}
-	imput = my_strtok(cmd, ";&");
-	for (b = 0; imput; b++)
-	{
-		imputs[b] = imput;
-		imput = my_strtok(NULL, ";&");
-	}
-	imputs[b] = NULL;
-	return (imputs);
+	return (count);
 }
 /**
- *dis_history - Function to keep users history
- *@line: Command line
- *Return: 1 on success
+ *my_arr_rev - function to reverse array
+ *@ar: pointer to the array
+ *@m: lenght of the array
  */
-int dis_history(char *line)
+void my_arr_rev(char *ar, int m)
 {
-	int run = 0;
-	char *fname = ".display_history";
-	ssize_t rd, wt;
+	char buf;
+	int a;
 
-	if (fname == NULL)
-		return (-1);
-	rd = open(fname, O_CREAT | O_RDWR | O_APPEND, 00600);
-	if (rd < 0)
-		return (-1);
-	if (line != NULL)
+	for (a = 0; a < (m / 2); a++)
 	{
-		while (line[run])
-			run++;
-		wt = write(rd, line, run);
-		if (wt < 0)
-			return (-1);
+		buf = ar[a];
+		ar[a] = ar[(m - 1) - a];
+		ar[(m - 1) - a] = buf;
 	}
-	return (1);
+}
+/**
+ *my_itoa - a function that convert int to char
+ *@num: the int to convert
+ *Return: pointer to char
+ */
+char *my_itoa(unsigned int num)
+{
+	int count = 0;
+	int a = 0;
+	char *str;
+
+	count = my_intlen(num);
+	str = malloc(count + 2);
+	if (str == NULL)
+		return (NULL);
+	*str = '\0';
+	while (num / 10)
+	{
+		str[a] = (num % 10) + '0';
+		num /= 10;
+		a++;
+	}
+	str[a] = (num % 10) + '0';
+	my_arr_rev(str, count);
+	str[a + 1] = '\0';
+	return (str);
+}
+/**
+ *my_isalpha - function that check for alphabet
+ *@s: string to be checked
+ *Return: 1 or 0
+ */
+int my_isalpha(int s)
+{
+	if (((s >= 97) && (s <= 122)) || ((s >= 65) && (s <= 90)))
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
+}
+/**
+ *my_strcmp - function that compare string
+ *@str1: first string
+ *@str2: second string
+ *Return: always 0
+ */
+int my_strcmp(char *str1, char *str2)
+{
+	int a, count1, count2, tmp = 0;
+
+	count1 = my_strlen(str1);
+	count2 = my_strlen(str2);
+
+	if (str1 == NULL || str2 == NULL)
+		return (1);
+	if (count1 != count2)
+		return (1);
+	for (a = 0; str1[a]; a++)
+	{
+		if (str1[a] != str2[a])
+		{
+			tmp = str1[a] - str2[a];
+			break;
+		}
+		else
+			continue;
+	}
+	return (tmp);
 }
