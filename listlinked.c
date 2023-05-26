@@ -3,7 +3,6 @@
 /**
  *my_getenv - Function to get eniron
  *@env: pointer to environ
- *
  *Return: total environ or NULL
  */
 char *my_getenv(char *env)
@@ -40,7 +39,6 @@ char *my_getenv(char *env)
  *create_cmd - Function to create cmd
  *@input: Pointer to cmd
  *@total: pointer to Directory
- *
  *Return: path or NULL on failure
  */
 char *create_cmd(char *input, char *total)

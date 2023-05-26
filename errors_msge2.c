@@ -1,53 +1,22 @@
 #include "shell.h"
 
 /**
- *exec_cmd - Function to Execute command
- *@input: Pointer to command
- *@run: pointer to recieved cmd
- *@s: line execute
- *@argv: Shell Arguments
- *
- *Return: 1 if failed and 0 on execute
+ *dis_err - Function to print error msg
+ *@line: pointer to command
+ *@run: loop for the shell
+ *@argv: Argument of the shell
  */
-int exec_cmd(char **input, char *run, int s, char **argv)
+void dis_err(char *line, int run, char **argv)
 {
-	int check;
-	pid_t pid;
+	char *error_msg;
 
-	if (!*input)
-		return (EXIT_FAILURE);
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("Error");
-		return (-1);
-	}
-	if (pid == 0)
-	{
-		if (my_strncmp(*input, "./", 2) != 0 && my_strncmp(*input, "/", 1) != 0)
-		{
-			find_path(input);
-		}
-		if (access(input[0], R_OK) != 0)
-		{
-			dis_err(input[0], s, argv);
-			free_me(input, run);
-			exit(127);
-		}
-		if (execve(*input, input, environ) == -1)
-			return (2);
-		else
-			return (0);
-	}
-	wait(&check);
-	if (WIFEXITED(check))
-	{
-		if (WEXITSTATUS(check) == 127)
-			return (127);
-		else if (WEXITSTATUS(check) == 0)
-			return (0);
-		else if (WEXITSTATUS(check) == 2)
-			return (2);
-	}
-	return (127);
+	PRINTF(argv[0]);
+	PRINTF(": ");
+	error_msg = my_itoa(run);
+	PRINTF(error_msg);
+	free(error_msg);
+	PRINTF(": ");
+	PRINTF(line);
+	PRINTF(": not found\n");
 }
+

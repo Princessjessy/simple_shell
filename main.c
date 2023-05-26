@@ -4,7 +4,6 @@
  *main - Shell main function
  *@argc: Count arguments
  *@argv: Argument array
- *
  *Return: return command
  */
 int main(__attribute__((unused)) int argc, char **argv)
@@ -27,7 +26,7 @@ int main(__attribute__((unused)) int argc, char **argv)
 		parse = sep_handler(run);
 		for (i = 0; parse[i] != NULL; i++)
 		{
-			line = run_cmd(parse[a]);
+			line = run_cmd(parse[i]);
 			if (my_strcmp(line[0], "exit") == 0)
 			{
 				free(parse);
@@ -40,7 +39,7 @@ int main(__attribute__((unused)) int argc, char **argv)
 				continue;
 			}
 			else
-				c = exec_cmd(line, run, k, argv);
+				c = exec_cmd(line, run, c, argv);
 			free(line);
 		}
 		free(run);

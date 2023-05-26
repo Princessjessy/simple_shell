@@ -1,22 +1,45 @@
 #include "shell.h"
 
 /**
- *dis_err - Function to print error msg
- *@line: pointer to command
- *@run: loop shell
- *@argv: Argument  shell
+ *my_exit - Functionn to Exit shell
+ *@line: Command line
+ *@run: Command from User
+ *@argv: Arguments
+ *@n: Count number of exec
+ *@s: Exit
  */
-void dis_err(char *line, int run, char **argv)
+void my_exit(char **line, char *run, char **argv, int n, int s)
 {
-	char *error_msg;
+	int check, a = 0;
 
-	PRINTF(argv[0]);
-	PRINTF(": ");
-	error_msg = my_itoa(run);
-	PRINTF(error_msg);
-	free(error_msg);
-	PRINTF(": ");
-	PRINTF(line);
-	PRINTF(": not found\n");
+	if (line[1] == NULL)
+	{
+		free(run);
+		free(line);
+		exit(s);
+	}
+	while (line[1][a])
+	{
+		if (my_isalpha(line[1][a++]) != 0)
+		{
+			my_perror(argv, n, line);
+			free(run);
+			free(line);
+			exit(2);
+		}
+		else
+		{
+			check = my_atoi(line[1]);
+			if (check == 2)
+			{
+				my_perror(argv, n, line);
+				free(run);
+				free(line);
+				exit(check);
+			}
+			free(run);
+			free(line);
+			exit(check);
+		}
+	}
 }
-

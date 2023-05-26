@@ -1,71 +1,59 @@
 #include "shell.h"
 
 /**
- * my_new - function that takes a string to a new line
- * @str: pointer to the string to be taken to a new line
- *
- * Return: Empty string
+ *my_calloc - memory allocator
+ *@value: size of memory
+ *Return: pointer
  */
-
-char *my_new(char *str)
+void *my_calloc(unsigned int value)
 {
-	free(str);
-	return ("\0");
-}
-
-/**
- * my_space - function that removes whitespaces in string
- * @str: string to be modified
- *
- * Return: Returns the modified string
- */
-
-char *my_space(char *str)
-{
-	int i, j = 0;
+	unsigned int a;
 	char *tmp;
 
-	tmp = malloc(sizeof(char) * (my_strlen(str) + 1));
-
-	if (tmp == NULL)
-	{
-		free(tmp);
+	if (value == 0)
 		return (NULL);
-	}
-
-	for (i = 0; str[i] == ' '; i++)
-		;
-	for (; str[i + 1] != '\0'; i++)
+	tmp = malloc(value);
+	if (!tmp)
+		return (NULL);
+	for (a = 0; a < value; a++)
 	{
-		tmp[j] = str[i];
-		j++;
-	}
-	tmp[j] = '\0';
-
-	if (tmp[0] == '\0' || tmp[0] == '#')
-	{
-		free(tmp);
-		return ("\0");
+		tmp[a] = '\0';
 	}
 	return (tmp);
 }
-
 /**
- * my_hash - function that removes everything after a '#'
- * @tmp: pointer to the input buffer
- *
- * Return: nothing
+ *my_realloc - memory allocator
+ *@point: pointer value
+ *@old_s: current memory size
+ *@new_s: new memory size
+ *Return: pointer to the new memory allocated
  */
-
-void my_hash(char *tmp)
+void *my_realloc(void *point, unsigned int old_s, unsigned int new_s)
 {
-	int b;
+	void *output;
 
-	for (b = 0; tmp[b] != '\0'; b++)
+	if (new_s == old_s)
+		return (point);
+	if (new_s == 0 && point)
 	{
-		if (tmp[b] == '#' && tmp[b - 1] == ' ' && tmp[b + 1] == ' ')
-		{
-			tmp[b] = '\0';
-		}
+		free(point);
+		return (NULL);
 	}
+	output = malloc(new_s);
+	if (!output)
+	{
+		free(output);
+		return (NULL);
+	}
+	if (!point)
+	{
+		mem_arr(output, '\0', new_s);
+		free(point);
+	}
+	else
+	{
+		my_memcpy(output, point, old_s);
+		free(point);
+	}
+	return (output);
 }

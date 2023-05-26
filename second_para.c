@@ -1,59 +1,50 @@
 #include "shell.h"
-
 /**
- *my_calloc - memory allocator
- *@value: size of memory
- *Return: pointer
+ *free_me - function to free memory
+ *@input: pointer to command
+ *@run: pointer to line
  */
-void *my_calloc(unsigned int value)
+void free_me(char **input, char *run)
 {
-	unsigned int a;
-	char *tmp;
-
-	if (value == 0)
-		return (NULL);
-	tmp = malloc(value);
-	if (!tmp)
-		return (NULL);
-	for (a = 0; a < value; a++)
-	{
-		tmp[a] = '\0';
-	}
-	return (tmp);
+	free(input);
+	free(run);
+	input = NULL;
+	run = NULL;
 }
 /**
- *my_realloc - memory allocator
- *@point: pointer value
- *@old_s: current memory size
- *@new_s: new memory size
- *Return: pointer to the new memory allocated
+ *mem_arr - Function to fill array
+ *@prt: pointer
+ *@num: int
+ *@run: value of int
+ *Return: filled arr
  */
-void *my_realloc(void *point, unsigned int old_s, unsigned int new_s)
+void *mem_arr(void *prt, int num, unsigned int run)
 {
-	void *output;
+	unsigned int a = 0;
+	char *b = prt;
 
-	if (new_s == old_s)
-		return (point);
-	if (new_s == 0 && point)
+	while (a < run)
 	{
-		free(point);
-		return (NULL);
+		*b = num;
+		b++;
+		a++;
 	}
-	output = malloc(new_s);
-	if (!output)
+	return (prt);
+}
+/**
+ *my_memcpy - function to copy memory bytes
+ *@tmp: pointer to dest
+ *@input: pointer
+ *@num: sizw of byte to copy
+ *Return: pointer to dest
+ */
+char *my_memcpy(char *tmp, char *input, unsigned int num)
+{
+	unsigned int a;
+
+	for (a = 0; a < num; a++)
 	{
-		free(output);
-		return (NULL);
+		tmp[a] = input[a];
 	}
-	if (!point)
-	{
-		mem_arr(output, '\0', new_s);
-		free(point);
-	}
-	else
-	{
-		my_memcpy(output, point, old_s);
-		free(point);
-	}
-	return (output);
+	return (tmp);
 }
