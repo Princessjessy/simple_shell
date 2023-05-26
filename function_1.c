@@ -1,74 +1,33 @@
 #include "shell.h"
 
 /**
-*my_getline - function that reads input by user
-* Return: the input by user on a buffer
-*/
-
-char *my_getline()
-{
-	int tmp, tmp2, buffsz = BUF_SIZ;
-	char c = 0, *buffer, *buf;
-
-	buffer = malloc(buffsz);
-	if (!buffer)
-	{
-		free(buffer);
-		return (NULL);
-	}
-	for (tmp = 0; s != EOF && c != '\n'; tmp++)
-	{
-		fflush(stdin);
-		tmp2 = read(STDIN_FILENO, &c, 1);
-		if (tmp2 == 0)
-		{
-			free(buffer);
-			exit(EXIT_SUCCESS);
-		}
-		buffer[tmp] = c;
-		if (buffer[0] == '\n')
-			return (my_ent(buffer));
-		if (tmp >= buffsz)
-		{
-			buffer = realloc(buffer, (buffsz + 2));
-			if (!buffer)
-			{
-				free(buffer);
-				return (NULL);
-			}
-		}
-	}
-	buffer[tmp] = '\0';
-	buf = my_space(buffer);
-	free(buffer);
-	my_hash(buf);
-	return (buf);
-}
-/**
- * make_env - Creates env Variables
- * @line: Array to store
+ *find_path - function to find path for command
+ *@command: Pointer to command line
+ *Return:; 0 or 1 if failed
  */
-
-void make_env(char **line)
+int find_path(char **command)
 {
-	int b;
+	char *find_p;
+	char *total, *cmd;
+	struct stat buf;
 
-	for (b = 0; environ[b]; b++)
-		line[b] = my_strdup(environ[b]);
-	line[b] = NULL;
-}
 
-/**
- * env_mem_free - Frees env memory array
- * @imput:  Array of Environment variables
- */
-
-void env_mem_free(char **imput)
-{
-	int b;
-
-	for (b = 0; imput[b]; b++)
+	find_p = my_getenv("PATH");
+	total = my_strtok(find_p, ":");
+	while (total)
 	{
-		free(imput[b]);
+		cmd = create_cmd(*command, total);
+		if (stat(cmd, &buf) == 0)
+		{
+			*command = my_strdup(cmd);
+			free(cmd);
+			free(find_p);
+			return (0);
+		}
+		free(cmd);
+		total = my_strtok(NULL, ":");
 	}
+	free(find_p);
+	free(total);
+	return (1);
 }
