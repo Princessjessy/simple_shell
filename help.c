@@ -37,7 +37,7 @@ int my_strncmp(const char *str1, const char *str2, size_t num)
 
 	if (!str1)
 		return (-1);
-	for (b = 0; b < num && str2[a]; b++)
+	for (b = 0; b < num && str2[b]; b++)
 	{
 		if (str1[b] != str2[b])
 			return (1);
