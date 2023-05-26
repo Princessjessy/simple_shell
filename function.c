@@ -1,15 +1,17 @@
 #include "shell.h"
 
 /**
- *my_perror - function to print custom error
+ *my_perror -  print custom error
  *@argv: Pointer to command arguments
  *@str: char line
  *@line: Command line
+ *
+ *Return: nothing
  */
 void my_perror(char **argv, int str, char **line)
 {
 	char *error_msg = my_itoa(str);
-
+/* error command */
 	PRINTF(argv[0]);
 	PRINTF(": ");
 	PRINTF(error_msg);
@@ -21,9 +23,11 @@ void my_perror(char **argv, int str, char **line)
 	free(error_msg);
 }
 /**
- *my_error - function to print custom error
+ *my_error - print custom error
  *@argv: Pointer to command arguments
  *@str: char line
+ *
+ *Return: nothing
  */
 void my_error(char **argv, int str)
 {
