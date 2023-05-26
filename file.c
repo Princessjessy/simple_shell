@@ -1,27 +1,45 @@
 #include "shell.h"
+
 /**
- * nor_interaction_mood - the program in the non interactive mode.
- * @progname: program name.
- *
- * Return: newline character
+ *my_exit - Functionn to Exit shell
+ *@line: Command line
+ *@run: Command from User
+ *@argv: Arguments
+ *@m:  number of exec
+ *@c: Exit
  */
-void nor_interaction_mood(char *progname)
+void my_exit(char **line, char *run, char **argv, int m, int c)
 {
-	char *line;
-	char **cmds;
-	int err_check = 0;
-	int running = 1;
-/* newline character */
-	while (1)
+	int result, b = 0;
+
+	if (line[1] == NULL)
 	{
-		line = read_stream();
-		cmds = tokeniz(line);
-		err_check = excutcmd(cmds);
-		if (err_check > 0)
+		free(run);
+		free(line);
+		exit(c);
+	}
+	while (line[1][b])
+	{
+		if (my_isalpha(line[1][b++]) != 0)
 		{
-			error(progname, err_check, cmds, running);
+			my_perror(argv, m, line);
+			free(run);
+			free(line);
+			exit(2);
+		}
+		else
+		{
+			result = my_atoi(line[1]);
+			if (result == 2)
+			{
+				my_perror(argv, m, line);
+				free(run);
+				free(line);
+				exit(result);
+			}
+			free(run);
+			free(line);
+			exit(result);
 		}
 	}
-	free(line);
-	free(cmds);
 }

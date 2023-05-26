@@ -1,53 +1,71 @@
 #include "shell.h"
-#include <ctype.h>
 
 /**
- * end - function causes normal process termination and exit the program,
- * @cmd: normal process.
+ * my_new - function that takes a string to a new line
+ * @str: pointer to the string to be taken to a new line
  *
- * Return: On Success nothing returned. return 2 in failure
+ * Return: Empty string
  */
 
-int end(char **cmd)
+char *my_new(char *str)
 {
-	if (cmd[1] != NULL)
-	{
-		int n = atoi(cmd[1]);
-
-		if (n == 0 && *cmd[1] != '0')
-			return (2);
-		free(cmd);
-		exit(n);
-	}
-	free(cmd);
-	exit(EXIT_SUCCESS);
+	free(str);
+	return ("\0");
 }
+
 /**
- * env - function that Display environment variables.
- * @cmd: the env command.
+ * my_space - function that removes whitespaces in string
+ * @str: string to be modified
  *
- * Return: 0 àn success.
+ * Return: Returns the modified string
  */
-int env(char **cmd)
+
+char *my_space(char *str)
 {
-	int i;
-	char *env_var;
-	char *vars[] = {"USER", "LANGUAGE", "SESSION", "COMPIZ_CONFIG_PROFILE",
-		"SHLVL", "HOME", "C_IS", "DESKTOP_SESSION",
-		"LOGNAME", "TERM", "PATH", "DISPLAY", NULL};
+	int i, j = 0;
+	char *tmp;
 
-	for (i = 0; vars[i] != NULL; i++)
+	tmp = malloc(sizeof(char) * (my_strlen(str) + 1));
+
+	if (tmp == NULL)
 	{
-		env_var = _getenv(vars[i]);
-		if (env_var != NULL)
-		{
-			write(STDOUT_FILENO, vars[i], _strlen(vars[i]));
-			write(STDOUT_FILENO, "=", 1);
-			write(STDOUT_FILENO, env_var, _strlen(env_var));
-			write(STDOUT_FILENO, "\n", 1);
+		free(tmp);
+		return (NULL);
+	}
 
+	for (i = 0; str[i] == ' '; i++)
+		;
+	for (; str[i + 1] != '\0'; i++)
+	{
+		tmp[j] = str[i];
+		j++;
+	}
+	tmp[j] = '\0';
+
+	if (tmp[0] == '\0' || tmp[0] == '#')
+	{
+		free(tmp);
+		return ("\0");
+	}
+	return (tmp);
+}
+
+/**
+ * my_hash - function that removes everything after a '#'
+ * @tmp: pointer to the input buffer
+ *
+ * Return: nothing
+ */
+
+void my_hash(char *tmp)
+{
+	int b;
+
+	for (b = 0; tmp[b] != '\0'; b++)
+	{
+		if (tmp[b] == '#' && tmp[b - 1] == ' ' && tmp[b + 1] == ' ')
+		{
+			tmp[b] = '\0';
 		}
 	}
-	*cmd = NULL;
-	return (0);
 }

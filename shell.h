@@ -1,15 +1,15 @@
 #ifndef SHELL_H
 #define SHELL_H
 /* MOOD */
-void interactive_mode(char *progname);
-void non_interactive_mode(char *progname);
+void interactiom_mood(char *progname);
+void nor_interaction_mood(char *progname);
 /* NUM */
 extern char **environ;
 #define MAX_NUM 10
 #define MAX_LENGHT 256
 #define BUFFER_SIZE 1024
 
-/* HEHDER *//
+/* HEHDER */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

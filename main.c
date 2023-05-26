@@ -1,20 +1,51 @@
 #include "shell.h"
 
 /**
- * main - run the program.
+ *main - Shell main function
+ *@argc: Count arguments
+ *@argv: Argument array
  *
- * Return: 0 always.
+ *Return: return command
  */
-
-int main(void)
+int main(__attribute__((unused)) int argc, char **argv)
 {
-	if (isatty(STDIN_FILENO) == 1)
+	char *run, **line, **parse;
+	int value = 0, i, k = 1, c = 0;
+
+	if (argv[1])
+		file_reader(argv[1], argv);
+	signal(SIGINT, handle_signal);
+	while (k)
 	{
-		interaction_mood();
+		value++;
+		if (isatty(STDIN_FILENO))
+			prompt();
+		run = my_getline();
+		if (run[0] == '\0')
+			continue;
+		dis_history(run);
+		parse = sep_handler(run);
+		for (i = 0; parse[i] != NULL; i++)
+		{
+			line = run_cmd(parse[a]);
+			if (my_strcmp(line[0], "exit") == 0)
+			{
+				free(parse);
+				my_exit(line, run, argv, k, c);
+			}
+			else if (builtin_val(line) == 0)
+			{
+				c = process_builtin(line, c);
+				free(line);
+				continue;
+			}
+			else
+				c = exec_cmd(line, run, k, argv);
+			free(line);
+		}
+		free(run);
+		free(parse);
+		wait(&c);
 	}
-	else
-	{
-		nor_interaction_mood();
-	}
-	return (0);
+	return (c);
 }

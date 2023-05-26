@@ -1,112 +1,63 @@
 #include "shell.h"
+
 /**
- * _strdup - function that returns a pointer to a newly allocated space
- * @str: string given as a parameter.
- *
- * Return: NULL if str = NULL and On success returns a pointer to
+ *my_getenv - Function to get eniron
+ *@env: pointer to environ
+ *Return: total environ or NULL
  */
-char *_strdup(char *str)
+char *my_getenv(char *env)
 {
-	char *newstr;
-	int len;
-	int i;
+	size_t env_len, final_len;
+	char *total;
+	int i, j, k;
 
-
-	if (str == NULL)
+	env_len = my_strlen(env);
+	for (i = 0; environ[i]; i++)
 	{
+		if (my_strncmp(env, environ[i], env_len) == 0)
+		{
+			final_len = my_strlen(environ[a]) - env_len;
+			total = malloc(sizeof(char) * final_len);
+			if (total == NULL)
+			{
+				free(total);
+				perror("unable to alloc");
+				return (NULL);
+			}
+			j = 0;
+			for (k = env_len + 1; environ[i][k]; k++, j++)
+			{
+				total[j] = environ[i][k];
+			}
+			total[j] = '\0';
+			return (total);
+		}
+	}
+	return (NULL);
+}
+/**
+ *create_cmd - Function to create cmd
+ *@imput: Pointer to cmd
+ *@total: pointer to Directory
+ *Return: path or NULL on failure
+ */
+char *create_cmd(char *imput, char *total)
+{
+	char *token;
+	size_t run;
+
+	run = my_strlen(total) + my_strlen(imput) + 2;
+	token = malloc(sizeof(char) * run);
+	if (!token)
+	{
+		free(token);
 		return (NULL);
 	}
-	else
-	{
-		len = strlen(str);
-		newstr = malloc((sizeof(char) * len) + 1);
-		if (newstr == NULL)
-		{
-			free(newstr);
-			return (NULL);
-		}
-		for (i = 0; i < len; i++)
-			newstr[i] = str[i];
-		newstr[len] = '\0';
-	}
-	return  (newstr);
-}
+	memset(token, 0, run);
 
-/**
- * _strlen - function that returns the length of a string.
- * @s: string.
- *
- * Return: length of a string
- */
-int _strlen(const char *s)
-{
-	int len = 0;
+	token = my_strcat(token, total);
+	token = my_strcat(token, "/");
+	token = my_strcat(token, imput);
 
-	while (s[len] != '\0')
-		len++;
-	return (len);
-}
-
-/**
- * _strncmp - function that compares two strings tell a specific index.
- * @str1: first string
- * @str2: second string
- * @n: index
- *
- * Return: return 0 if strings are equal, and -1 if its not.
- */
-int _strncmp(const char *str1, const char *str2, int n)
-{
-	int i;
-
-	for (i = 0; i < n; i++)
-	{
-		if (str1[i] == str2[i])
-		{
-			continue;
-		}
-		else
-		{
-			return (-1);
-		}
-	}
-	return (0);
-}
-/**
- * _strcat - function appends the src string to the dest string
- * @dest: first string
- * @src: second string
- *
- * Return: a pointer to the resulting string dest
- */
-char *_strcat(char *dest, char *src)
-{
-	int i = 0;
-	int r = _strlen(dest);
-
-	while (*(src + i) != '\0')
-	{
-		*(dest + (r + i)) = *(src + i);
-		i++;
-	}
-	*(dest + (r + i)) = '\0';
-	return (dest);
-}
-/**
- * *_strcpy -  copies the string pointed to by src including the
- * terminating null byte (\0), to the buffer pointed to by dest.
- * @dest: copy to
- * @src: copy from
- *
- * Return: the pointer to dest
- */
-char *_strcpy(char *dest, char *src)
-{
-	int i = -1;
-
-	do {
-		i++;
-		*(dest + i) = *(src + i);
-	} while (*(src + i) != '\0');
-	return (dest);
+	return (token);
 }
