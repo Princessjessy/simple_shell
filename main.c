@@ -12,7 +12,7 @@ int main(__attribute__((unused)) int argc, char **argv)
 	int value = 0, i, k = 1, c = 0;
 
 	if (argv[1])
-		file_reader(argv[1], argv);
+/*		file_reader(argv[1], argv);*/
 	signal(SIGINT, handle_signal);
 	while (k)
 	{
