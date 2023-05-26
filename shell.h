@@ -61,7 +61,7 @@ char *my_strncpy(char *dst, char *sc, int n);
 void my_puts(char *stri);
 int my_atoi(char *st);
 char *my_strtok(char *st, const char *tk);
-unsigned int check_my_delim(char s, const char *st);
+unsigned int check_my_delim(char c, const char *str);
 int my_intlen(int n);
 void my_arr_rev(char *ar, int m);
 char *my_itoa(unsigned int num);
@@ -84,8 +84,8 @@ void handle_signal(int check);
 void prompt(void);
 char **sep_handler(char *cmd);
 char **run_cmd(char *line);
-char *my_ent(char *str);
-char *my_space(char *st);
+char *my_new(char *str);
+char *my_space(char *str);
 void my_hash(char *tmp);
 
 /**
