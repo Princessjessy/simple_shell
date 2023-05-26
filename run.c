@@ -1,89 +1,95 @@
 #include "shell.h"
 
 /**
- * file_reader - Function to read command from file
- * @f: File
- * @argv: Arguments
+ *my_strlen - function to count string lenght
+ *@str: string pointer
+ *Return: lenght
  */
-void file_reader(char *f, char **argv)
-{
-	FILE *rd;
-	char *run = NULL;
-	size_t len = 0;
-	int c = 0;
 
-	rd = fopen(f, "r");
-	if (!rd)
+int my_strlen(char *str)
+{
+	int a;
+
+	for (a = 0; str[a] != '\0'; a++)
 	{
-		my_error(argv, c);
-		exit(127);
+		continue;
 	}
-	while ((getline(&run, &len, rd)) != -1)
-	{
-		c++;
-		run_file(run, c, rd, argv);
-	}
-	if (run != NULL)
-		free(run);
-	fclose(rd);
-	exit(0);
+	return (a);
 }
-
 /**
- * run_file - Function to handle cmd and exec
- * @cmd: pointer to command
- * @c: Error
- * @fl: File descriptor
- * @argv: Command line arguments
+ *_putchar - writes the character c to stdout
+ *@c: The character to print
+ *
+ *Return: On success 1.
+ *On error, -1 is returned, and errno is set appropriately.
  */
-
-void run_file(char *cmd, int c, FILE *fl, char **argv)
+int _putchar(char c)
 {
-	char **run;
-	int result = 0;
-
-	run = run_cmd(cmd);
-	if (my_strncmp(run[0], "exit", 4) == 0)
-		exit_file(run, cmd, fl);
-	else if (builtin_val(run) == 0)
-	{
-		result = process_builtin(run, result);
-		free(run);
-	}
-	else
-	{
-		result = exec_cmd(run, cmd, c, argv);
-		free(run);
-	}
+	return (write(1, &c, 1));
 }
-
 /**
- * exit_file - Exit for file input
- * @imput: input from a file
- * @cmd: Parsed command
- * @fl: File Descriptor
+ *my_strncpy - function to copy a string
+ *@dst: pointer to a string
+ *@sc: pointer to second string
+ *@n: integer
+ *Return: string copied
  */
-
-void exit_file(char **cmd, char *input, FILE *fl)
+char *my_strncpy(char *dst, char *sc, int n)
 {
-	int result;
-	int b = 0;
+	int a = 0;
 
-	if (cmd[b] == NULL)
+	while (a < n && *(sc + a))
 	{
-		free(imput);
-		free(cmd);
-		fclose(fl);
-		exit(errno);
+		*(dst + a) = *(sc + a);
+		a++;
 	}
-	while (cmd[1][b])
+	while (a < n)
 	{
-		if (my_isalpha(cmd[1][b++]) < 0)
-			perror("Illegal number");
+		*(dst + a) = '\0';
+		a++;
 	}
-	result = my_atoi(cmd[1]);
-	free(imput);
-	free(cmd);
-	fclose(fl);
-	exit(result);
+	return (dst);
+}
+/**
+ *my_puts - function to print a string
+ *@stri: pointer to the string
+ *Return: void
+ */
+void my_puts(char *stri)
+{
+	int a;
+
+	for (a = 0; stri[a] != '\0'; a++)
+	{
+		_putchar(stri[a]);
+	}
+	_putchar('\n');
+}
+/**
+ *my_atoi - function to convert string to int
+ *@st: pointer to a string
+ *Return: the int value
+ */
+int my_atoi(char *st)
+{
+	int i;
+	int x = 0;
+	int y = -1;
+	int z = 0;
+
+	for (i = 0; st[i] != '\0'; i++)
+	{
+		if (st[i] == '-')
+			y = y * -1;
+		if (st[i] >= '0' && st[i] <= '9')
+		{
+			x = x * 10;
+			x -= (st[i] - '0');
+			z = 1;
+		}
+		else if (z == 1)
+			break;
+	}
+	x = y * x;
+	return (x);
 }
