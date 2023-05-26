@@ -1,9 +1,10 @@
 #include "shell.h"
 
 /**
- *find_path - function to find path for command
+ *find_path -  path for command
  *@command: Pointer to command line
- *Return:; 0 or 1 if failed
+ *
+ *Return:; 0 sucess 1 failed
  */
 int find_path(char **command)
 {
@@ -11,7 +12,7 @@ int find_path(char **command)
 	char *total, *cmd;
 	struct stat buf;
 
-
+/* command kine ptr */
 	find_p = my_getenv("PATH");
 	total = my_strtok(find_p, ":");
 	while (total)
