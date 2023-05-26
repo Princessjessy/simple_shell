@@ -1,11 +1,14 @@
 #include "shell.h"
 
 /**
- *handle_signal - Function to handle ctrl C
+ *handle_signal - handle ctrl C
+ *
  *@check: parse in line
+ *Return: newline 
  */
 void handle_signal(int check)
 {
+/* newline character */
 	if (check == SIGINT)
 	{
 		PRINTF("\n($) ");
@@ -13,7 +16,7 @@ void handle_signal(int check)
 }
 
 /**
- *prompt - function to display prompt
+ *prompt -  display prompt
  */
 void prompt(void)
 {
