@@ -1,47 +1,48 @@
 #include "shell.h"
 /**
- * my_strtok - function that extracts tokens from a string
+ * my_strtok -  extracts tokens from a string
  * @st: pointer to the string
  * @tk: pointer to the delimiter
+ *
  * Return: pointer to the next token or NULL if none
  */
 
 char *my_strtok(char *st, const char *tk)
 {
-	static char *t, *s;
-	unsigned int a;
+	static char *a, *b;
+	unsigned int i;
 
 	if (st != NULL)
-		s = st;
-	t = s;
-	if (t == NULL)
+		b = st;
+	a = b;
+	if (a == NULL)
 		return (NULL);
-	for (a = 0; t[a] != '\0'; a++)
+	for (i = 0; a[i] != '\0'; i++)
 	{
-		if (check_my_delim(t[a], tk) == 0)
+		if (check_my_delim(a[i], tk) == 0)
 			break;
 	}
-	if (s[a] == '\0' || s[a] == '#')
+	if (b[i] == '\0' || b[i] == '#')
 	{
 		s = NULL;
 		return (NULL);
 	}
-	t = s + a;
-	s = t;
-	for (a = 0; s[a] != '\0'; a++)
+	a = b + i;
+	b = a;
+	for (i = 0; b[i] != '\0'; i++)
 	{
-		if (check_my_delim(s[a], tk) == 1)
+		if (check_my_delim(b[i], tk) == 1)
 			break;
 	}
-	if (s[a] == '\0')
-		s = NULL;
+	if (b[i] == '\0')
+		b = NULL;
 	else
 	{
-		s[a] = '\0';
-		s = s + a + 1;
+		b[i] = '\0';
+		b = b + i + 1;
 
-		if (*s == '\0')
-			s = NULL;
+		if (*b == '\0')
+			b = NULL;
 	}
-	return (t);
+	return (a);
 }
