@@ -1,34 +1,21 @@
 #include "shell.h"
 
 /**
- *find_path - function to find path for command
- *@command: Pointer to command line
- *
- *Return:; 0 or 1 if failed
+ *handle_signal - Function to handle ctrl C
+ *@check: parse in line
  */
-int find_path(char **command)
+void handle_signal(int check)
 {
-	char *find_p;
-	char *total, *cmd;
-	struct stat buf;
-
-
-	find_p = my_getenv("PATH");
-	total = my_strtok(find_p, ":");
-	while (total)
+	if (check == SIGINT)
 	{
-		cmd = create_cmd(*command, total);
-		if (stat(cmd, &buf) == 0)
-		{
-			*command = my_strdup(cmd);
-			free(cmd);
-			free(find_p);
-			return (0);
-		}
-		free(cmd);
-		total = my_strtok(NULL, ":");
+		PRINTF("\n($) ");
 	}
-	free(find_p);
-	free(total);
-	return (1);
+}
+
+/**
+ *prompt - function to display prompt
+ */
+void prompt(void)
+{
+	PRINTF("($) ");
 }
