@@ -6,6 +6,7 @@
  *
  *Return: newline 
  */
+
 void handle_signal(int check)
 {
 /* newline character */
