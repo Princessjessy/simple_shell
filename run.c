@@ -18,10 +18,10 @@ int my_strlen(char *str)
 	return (b);
 }
 /**
- *_putchar - writes the character c to stdout
- *@c: The character to print
+ *_putchar -  character c to stdout
+ *@c:  its print
  *
- *Return: 1 success 
+ *Return:  success 1.
  */
 int _putchar(char c)
 {
@@ -69,7 +69,7 @@ void my_puts(char *stri)
 }
 /**
  *my_atoi - function to convert string to int
- *@st: pointer to a string
+ *@str: pointer to a string
  *Return: the int value
  */
 int my_atoi(char *str)
