@@ -2,7 +2,7 @@
 
 /**
  *my_strdup - double a string
- *@st: pointer to the string
+ *@str: pointer to the string
  *
  *Return: duplicate
  */
