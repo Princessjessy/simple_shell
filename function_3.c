@@ -1,11 +1,9 @@
 #include "shell.h"
-
 /**
-*my_getline - function that reads input by user
-*
-* Return: the input by user on a buffer
-*/
-
+ * my_getline - read imput
+ *
+ * Return: input on buffer
+ */
 char *my_getline()
 {
 	int tmp, tmp2, buffsz = BUF_SIZ;
@@ -46,12 +44,11 @@ char *my_getline()
 	return (buf);
 }
 /**
- * make_env - Creates env 
+ * make_env -  env Variables
  * @line: Array to store
  *
  * Return: nothing
  */
-
 void make_env(char **line)
 {
 	int b;

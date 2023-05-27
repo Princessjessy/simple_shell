@@ -1,12 +1,11 @@
 #include "shell.h"
 
 /**
- *handle_signal - handle ctrl c
- *@check: parse in line
+ *handle_signal -  handle ctrl C
+ *@check: in line
  *
- *Return: newline 
+ * Return: newline character
  */
-
 void handle_signal(int check)
 {
 /* newline character */

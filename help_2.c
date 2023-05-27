@@ -60,10 +60,10 @@ void dis_num(unsigned int num)
 }
 
 /**
- * dis_int -  integers using _putchar function
+ * dis_int - integers putchar function
  * @num: Integer
  *
- * Return: nothing 
+ * Return: nothing
  */
 
 void dis_int(int num)
